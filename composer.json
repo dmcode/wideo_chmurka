@@ -1,7 +1,8 @@
 {
     "autoload": {
         "psr-4": {
-            "Controllers\\": "controllers/"
+            "Controllers\\": "controllers/",
+            "Twig\\": "twig/"
         }
     },
     "require": {

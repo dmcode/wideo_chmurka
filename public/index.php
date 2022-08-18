@@ -8,6 +8,7 @@ use Slim\Factory\AppFactory;
 use Slim\Middleware\Session;
 use Slim\Views\Twig;
 use Slim\Views\TwigMiddleware;
+use Twig\AppExtension;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -17,8 +18,7 @@ $dotenv = Dotenv\Dotenv::createImmutable(APP_ROOT);
 $dotenv->load();
 
 $container = new Container();
-AppFactory::setContainer($container);
-$app = AppFactory::create();
+$app = AppFactory::createFromContainer($container);
 
 $app->add(
     new Session([
@@ -29,11 +29,13 @@ $app->add(
     ])
 );
 
+$container->set('route.parser', function (ContainerInterface $container) use ($app) {
+    return $app->getRouteCollector()->getRouteParser();
+});
 
 $container->set('view', function (ContainerInterface $container) {
     $twig = Twig::create(APP_ROOT.'/templates', ['cache' => false]);
-    $twig->getEnvironment()->addGlobal('APP_NAME', $_ENV['APP_NAME']);
-    $twig->getEnvironment()->addGlobal('APP_DESCRIPTION', $_ENV['APP_DESCRIPTION']);
+    $twig->getEnvironment()->addExtension(new AppExtension($container));
     return $twig;
 });
 $app->add(TwigMiddleware::createFromContainer($app));

@@ -15,8 +15,10 @@
     <body>
         <header>
             <div class="app-branding">
-                <img src="images/logo.svg" alt=""/>
-                <span>{{ APP_NAME }}</span>
+                <a href="{{ url_for('index') }}">
+                    <img src="images/logo.svg" alt=""/>
+                    <span>{{ APP_NAME }}</span>
+                </a>
             </div>
         </header>
     </body>

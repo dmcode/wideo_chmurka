@@ -8,9 +8,14 @@ use Slim\Views\TwigMiddleware;
 
 require __DIR__ . '/../vendor/autoload.php';
 
+define('APP_ROOT', dirname(__DIR__));
+
+$dotenv = Dotenv\Dotenv::createImmutable(APP_ROOT);
+$dotenv->load();
+
 $app = AppFactory::create();
 
-$twig = Twig::create(__DIR__.'/../templates', ['cache' => false]);
+$twig = Twig::create(APP_ROOT.'/templates', ['cache' => false]);
 
 $app->add(
     new Session([

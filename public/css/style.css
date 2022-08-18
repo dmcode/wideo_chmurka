@@ -51,16 +51,23 @@ body > header {
 }
 
 .app-branding {
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
-    align-items: center;
     font-family: 'Pacifico', cursive;
     font-size: 2rem;
     height: 100%;
 }
 
+.app-branding a {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+    height: 100%;
+    text-decoration: none;
+    color: var(--text-primary);
+}
+
 .app-branding img {
+    display: block;
     height: 60px;
     width: 60px;
 }

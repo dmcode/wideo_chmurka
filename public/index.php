@@ -31,7 +31,10 @@ $app->add(
 
 
 $container->set('view', function (ContainerInterface $container) {
-    return Twig::create(APP_ROOT.'/templates', ['cache' => false]);
+    $twig = Twig::create(APP_ROOT.'/templates', ['cache' => false]);
+    $twig->getEnvironment()->addGlobal('APP_NAME', $_ENV['APP_NAME']);
+    $twig->getEnvironment()->addGlobal('APP_DESCRIPTION', $_ENV['APP_DESCRIPTION']);
+    return $twig;
 });
 $app->add(TwigMiddleware::createFromContainer($app));
 

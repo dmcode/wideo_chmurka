@@ -1,4 +1,6 @@
 <?php
+
+use Controllers\IndexController;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
@@ -32,6 +34,8 @@ $app->get('/', function (Request $request, Response $response, $args) {
     $response->getBody()->write("Hello world!");
     return $response;
 });
+
+$app->get('/test', IndexController::class . ':index');
 
 $app->get('/hello/{name}', function ($request, $response, $args) {
     $view = Twig::fromRequest($request);

@@ -3,13 +3,22 @@ namespace Controllers;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Slim\Views\Twig;
 
 
 class IndexController
 {
+    private $view;
+
+    public function __construct(Twig $view)
+    {
+        $this->view = $view;
+    }
+
     public function index(Request $request, Response $response, $args): Response
     {
-        $response->getBody()->write("NO I TO JEST TO CO WIEM ZE JEST");
-        return $response;
+        return $this->view->render($response, 'layout.html.twig', [
+            'name' => "JAZDAAAAA!!!!"
+        ]);
     }
 }

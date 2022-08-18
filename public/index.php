@@ -1,6 +1,7 @@
 <?php
-
+use DI\Container;
 use Controllers\IndexController;
+use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
@@ -15,9 +16,9 @@ define('APP_ROOT', dirname(__DIR__));
 $dotenv = Dotenv\Dotenv::createImmutable(APP_ROOT);
 $dotenv->load();
 
+$container = new Container();
+AppFactory::setContainer($container);
 $app = AppFactory::create();
-
-$twig = Twig::create(APP_ROOT.'/templates', ['cache' => false]);
 
 $app->add(
     new Session([
@@ -28,14 +29,23 @@ $app->add(
     ])
 );
 
-$app->add(TwigMiddleware::create($app, $twig));
 
-$app->get('/', function (Request $request, Response $response, $args) {
-    $response->getBody()->write("Hello world!");
-    return $response;
+$container->set('view', function (ContainerInterface $container) {
+    return Twig::create(APP_ROOT.'/templates', ['cache' => false]);
+});
+$app->add(TwigMiddleware::createFromContainer($app));
+
+
+$container->set('IndexController', function (ContainerInterface $container) {
+    $view = $container->get('view');
+    return new IndexController($view);
 });
 
-$app->get('/test', IndexController::class . ':index');
+
+// Routing
+$app->get('/', 'IndexController:index')->setName('index');
+
+
 
 $app->get('/hello/{name}', function ($request, $response, $args) {
     $view = Twig::fromRequest($request);

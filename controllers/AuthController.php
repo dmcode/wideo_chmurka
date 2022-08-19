@@ -13,6 +13,15 @@ class AuthController extends BaseController
         return $this->render($response, 'login.html.twig');
     }
 
+    public function loginSubmit(Request $request, Response $response, $args): Response
+    {
+        $data = $request->getParsedBody();
+        $user = $this->get('account')->login($data);
+        if ($user)
+            return $this->redirect($response, 'index');
+        return $this->redirect($response, 'account_login');
+    }
+
     public function singup(Request $request, Response $response, $args): Response
     {
         return $this->render($response, 'singup.html.twig');
@@ -22,7 +31,8 @@ class AuthController extends BaseController
     {
         $data = $request->getParsedBody();
         $user = $this->get('account')->create($data);
-        $response->getBody()->write("super działa");
-        return $response;
+        if ($user)
+            return $this->redirect($response, 'account_login');
+        return $this->redirect($response, 'singup');
     }
 }

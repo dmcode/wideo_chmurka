@@ -34,4 +34,47 @@ class DatabaseService extends BaseService
         }
         return $this->connection;
     }
+
+    public function fetch($table, array $conditions)
+    {
+        $stmt = $this->select($table, $conditions, ['*'], 1);
+        return $stmt->fetch(\PDO::FETCH_OBJ);
+    }
+
+    public function insert($table, array $data, $fetch=true)
+    {
+        $fields = array_keys($data);
+        $values = array_map(fn($field): string => ":$field", $fields);
+        $sql = sprintf('INSERT INTO %s (%s) VALUES (%s)',
+                        $table, implode(', ', $fields), implode(', ', $values)
+        );
+        $stmt = $this->connect()->prepare($sql);
+        $stmt->execute($data);
+        $id = $this->connect()->lastInsertId();
+        if ($fetch)
+            return $this->fetch($table, ['id' => $id]);
+        return $id;
+    }
+
+    public function select($table, array $conditions = [], array $fields=['*'], $limit=null)
+    {
+        $sql = $this->buildConditions(
+            sprintf('SELECT %s FROM %s ', implode(', ', $fields), $table),
+            $conditions, $limit
+        );
+        $stmt = $this->connect()->prepare($sql);
+        $stmt->execute($conditions);
+        return $stmt;
+    }
+
+    protected function buildConditions(string $sql, array $conditions = [], $limit=null)
+    {
+        if (count($conditions) > 0) {
+            $where = array_map(fn($field): string => "$field = :$field", array_keys($conditions));
+            $sql .= 'WHERE ' . implode(' AND', $where) . ' ';
+        }
+        if ($limit)
+            $sql .= 'LIMIT '.$limit;
+        return $sql;
+    }
 }

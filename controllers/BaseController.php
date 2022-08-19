@@ -9,7 +9,7 @@ class BaseController
 {
     public function __construct(protected ContainerInterface $container) {}
 
-    public function render($response, $template, $args=[]): Response
+    public function render(Response $response, $template, $args=[]): Response
     {
         $view = $this->get('view');
         if (!$view)
@@ -20,5 +20,14 @@ class BaseController
     public function get($service)
     {
         return $this->container->get($service);
+    }
+
+    public function redirect(Response $response, $name)
+    {
+        $parser = $this->get('route.parser');
+        $url = $parser->urlFor($name, []);
+        return $response
+            ->withHeader('Location', $url)
+            ->withStatus(302);
     }
 }

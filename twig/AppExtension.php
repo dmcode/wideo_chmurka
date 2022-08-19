@@ -27,11 +27,19 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
     {
         return [
             new TwigFunction('url_for', [$this, 'url_for']),
+            new TwigFunction('url_css', [$this, 'url_css']),
         ];
     }
     public function url_for($name, $queryParams=[])
     {
         $parser = $this->container->get('route.parser');
         echo $parser->urlFor($name, $queryParams);
+    }
+
+    public function url_css($path)
+    {
+        if (!str_ends_with($path, '.css'))
+            $path = $path . '.css';
+        return '/css/'.$path;
     }
 }

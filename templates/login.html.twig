@@ -1,0 +1,23 @@
+{% extends "layout.html.twig" %}
+
+{% block body %}
+    <div class="page-login">
+        <div class="form-login-card">
+            {{ include("partial/appbranding.html.twig") }}
+            <div>
+                Nie masz konta? <a href="{{ url_for('singup') }}">Załóż konto</a>
+            </div>
+            <form class="login">
+                <label>
+                    <span>Nazwa użytkownika</span>
+                    <input type="text" maxlength="128" required name="username"/>
+                </label>
+                <label>
+                    <span>Hasło</span>
+                    <input type="password" maxlength="128" required name="password"/>
+                </label>
+                <input type="submit" value="Zaloguj"/>
+            </form>
+        </div>
+    </div>
+{% endblock %}

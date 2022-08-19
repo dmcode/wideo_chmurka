@@ -1,0 +1,12 @@
+{% extends "layout.html.twig" %}
+
+{% block body %}
+    <header>
+        {{ include("partial/appbranding.html.twig") }}
+        <div class="account">
+            <a href="{{ url_for('account_login') }}">Zaloguj się</a>
+        </div>
+    </header>
+    <main>{% block content %}{% endblock %}</main>
+    {% block template %}{% endblock %}
+{% endblock %}

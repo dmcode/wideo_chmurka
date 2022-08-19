@@ -1,0 +1,25 @@
+{% extends "layout.html.twig" %}
+
+{% block body %}
+    <div class="page-singup">
+        {{ include("partial/appbranding.html.twig") }}
+        <div class="form-auth-card">
+            <p class="label">Utwórz nowe konto</p>
+            <form class="auth" method="post">
+                <label>
+                    <span>Adres e-mail</span>
+                    <input type="email" maxlength="128" required name="email"/>
+                </label>
+                <label>
+                    <span>Hasło</span>
+                    <input type="password" maxlength="128" required name="password"/>
+                </label>
+                <label>
+                    <span>Powtórz hasło</span>
+                    <input type="password" maxlength="128" required name="password_repeat"/>
+                </label>
+                <input type="submit" value="Zalóż konto"/>
+            </form>
+        </div>
+    </div>
+{% endblock %}

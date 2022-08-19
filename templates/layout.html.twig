@@ -12,18 +12,10 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500&family=Pacifico&display=swap" rel="stylesheet">
+        {% block stylesheet %}{% endblock %}
     </head>
     <body>
-        <header>
-            <div class="app-branding">
-                <a href="{{ url_for('index') }}">
-                    <img src="images/logo.svg" alt=""/>
-                    <span>{{ APP_NAME }}</span>
-                </a>
-            </div>
-        </header>
-        <main>{% block content %}{% endblock %}</main>
-        {% block template %}{% endblock %}
+        {% block body %}{% endblock %}
         {% block bodyscripts %}{% endblock %}
     </body>
 </html>

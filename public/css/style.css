@@ -1,37 +1,3 @@
-:root {
-    --text-primary: #001937;
-    --text-blue2: #0a99ff;
-    --dark-primary: #001937;
-    --blue-primary: #0082FE;
-    --yellow-primary: #FFCD55;
-    --gray-1: #f4f4f4;
-    --gray-2: #e2e2e2;
-    --gray-b1: #b1b1b1;
-    --gray-d1: #d1d1d1;
-    --gray-d6: #d6d6d6;
-    --gray-e2: #e2e2e2;
-    --gray-e3: #e3e3e3;
-    --gray-3: #b1b1b1;
-    --gray-4: #919191;
-    --gray-70: #707070;
-    --salary: #0095ff;
-    --size-d12: 0.75rem;
-    --size-d13: 0.8125rem;
-    --size-d14: 0.875rem;
-    --size-d15: 0.9375rem;
-    --size-d18: 1.125rem;
-    --size-d20: 1.25rem;
-    --size-d26: 1.625rem;
-}
-
-* {
-    box-sizing: border-box;
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
 body {
     padding: 0;
     margin: 0;
@@ -78,22 +44,30 @@ body > header {
     position: relative;
 }
 
-.video-recorder video {
+.media-preview-wrapper {
+    position: relative;
     background: black;
     width: 640px;
     height: 360px;
 }
 
+.media-preview-wrapper video {
+    width: 100%;
+    height: 360px;
+}
+
 .select-media {
     position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     top: 0;
     left: 0;
     bottom: 0;
     right: 0;
+    background: rgba(0,0,0,0.4);
 }
 
 .btn-select-media {
-
-    color: white;
-    background: #001937;
+    text-decoration: none;
 }

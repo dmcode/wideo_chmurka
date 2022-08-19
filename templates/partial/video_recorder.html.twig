@@ -1,0 +1,19 @@
+<div class="video-recorder">
+    <div class="media-preview-wrapper">
+        <video id="mediaPreview" autoplay loop muted poster="/images/loss-signal-poster.webp">
+            <source src="/video/loss-signal.webm" type="video/webm">
+        </video>
+    </div>
+</div>
+
+{% block template %}
+    <template id="tmplSelectMedia">
+        <div class="select-media">
+            <a href="#" class="btn btn-select-media">Wybierz żródło wideo</a>
+        </div>
+    </template>
+{% endblock %}
+
+{% block bodyscripts %}
+    <script type="module" src="/js/recorder/app.js"></script>
+{% endblock %}

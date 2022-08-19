@@ -71,3 +71,29 @@ body > header {
     height: 60px;
     width: 60px;
 }
+
+
+
+.video-recorder {
+    position: relative;
+}
+
+.video-recorder video {
+    background: black;
+    width: 640px;
+    height: 360px;
+}
+
+.select-media {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.btn-select-media {
+
+    color: white;
+    background: #001937;
+}

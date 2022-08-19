@@ -17,7 +17,7 @@ class IndexController
 
     public function index(Request $request, Response $response, $args): Response
     {
-        return $this->view->render($response, 'layout.html.twig', [
+        return $this->view->render($response, 'index.html.twig', [
             'name' => "JAZDAAAAA!!!!"
         ]);
     }

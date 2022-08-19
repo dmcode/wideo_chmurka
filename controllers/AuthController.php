@@ -21,6 +21,7 @@ class AuthController extends BaseController
     public function singupSubmit(Request $request, Response $response, $args): Response
     {
         $data = $request->getParsedBody();
+        $user = $this->get('account')->create($data);
         $response->getBody()->write("super działa");
         return $response;
     }

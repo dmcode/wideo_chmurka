@@ -11,9 +11,14 @@ class BaseController
 
     public function render($response, $template, $args=[]): Response
     {
-        $view = $this->container->get('view');
+        $view = $this->get('view');
         if (!$view)
             throw new \RuntimeException("Twig service does not exists");
         return $view->render($response, $template, $args);
+    }
+
+    public function get($service)
+    {
+        return $this->container->get($service);
     }
 }

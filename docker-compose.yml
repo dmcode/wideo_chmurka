@@ -1,0 +1,43 @@
+version: '2.3'
+services:
+
+  main_db:
+    image: mysql:8.0
+    volumes:
+      - "main_dbdata:/var/lib/mysql"
+      - "./docker/initdb:/docker-entrypoint-initdb.d"
+    ports:
+      - "8306:3306"
+    restart: on-failure
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+
+  main_phpmyadmin:
+    image: phpmyadmin
+    restart: on-failure
+    ports:
+      - "8001:80"
+    environment:
+      - PMA_ARBITRARY=1
+    depends_on:
+      - main_db
+
+  main_app:
+    image: wideochmurka:php8.1-fpm-bullseye
+    command: php -S 0.0.0.0:8000 -t public
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - '.:/srv/app'
+    user: 1000:1000
+    depends_on:
+      - main_db
+
+volumes:
+  main_dbdata:

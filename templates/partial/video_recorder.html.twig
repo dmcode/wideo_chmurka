@@ -12,6 +12,23 @@
             <a href="#select-media" class="button-37 btn-select-media">Wybierz żródło wideo</a>
         </div>
     </template>
+
+    <template id="tmplMediaControls">
+        <div class="media-controls">
+            <div class="recording-info"></div>
+            <div class="control-button">
+                <input id="btnRec" type="checkbox" />
+                <label for="btnRec"></label>
+            </div>
+            <div class="recording-time">
+                <time id="elapsed">00:00</time>
+            </div>
+        </div>
+    </template>
+
+    <template id="tmplRecordingInfo">
+        <i class="recdot"></i><span>NAGRYWANIE</span>
+    </template>
 {% endblock %}
 
 {% block bodyscripts %}

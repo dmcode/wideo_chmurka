@@ -28,14 +28,14 @@ const startRecording = ({elMediaControls=null, elapsedTag=null, btnRec=null}) =>
   });
   recorder.onStart(_ => {
     const tmplRecordingInfo = cloneTemplate('tmplRecordingInfo');
-    if (tmplRecordingInfo && elMediaPreview) {
-      elMediaPreview.querySelector('.recording-info').appendChild(tmplRecordingInfo);
-    }
+    if (tmplRecordingInfo && elMediaPreview)
+      elMediaPreview.querySelector('.recording-info').replaceChildren(tmplRecordingInfo);
   });
   recorder.onStop(_ => {
     btnRec.checked = false;
-    if (elMediaPreview)
-      elMediaPreview.querySelector('.recording-info').replaceChildren();
+    const tmplRecordingInfoStop = cloneTemplate('tmplRecordingInfoStop');
+    if (tmplRecordingInfoStop && elMediaPreview)
+      elMediaPreview.querySelector('.recording-info').replaceChildren(tmplRecordingInfoStop);
   });
   recorder.start();
 }

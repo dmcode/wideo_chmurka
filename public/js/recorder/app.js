@@ -1,69 +1,49 @@
-import {hasMediaSelected, getDisplayMedia, getVideoRecorder} from "./recorder.js";
+import {createVideoBox} from "./recorder.js";
 import {cloneTemplate} from "../tools.js";
 
-const elVideoRecorder = document.querySelector('.video-recorder');
-const elMediaPreview = document.querySelector('.media-preview-wrapper');
-const videoTag = document.getElementById('mediaPreview');
 
-let recorder = null;
+const tagMediaPreview = document.querySelector('.media-preview-wrapper');
 
 
-const selectMedia = async () => {
-  try {
-    await getDisplayMedia();
-    recorder = getVideoRecorder({videoTag});
-  }
-  catch (error) {
-    alert("Nie można wybrać urządzenia wideo!");
-  }
-}
-
-
-const startRecording = ({elMediaControls=null, elapsedTag=null, btnRec=null}) => {
-  recorder.reset();
-  recorder.onTimeInterval(seconds => {
+const handleVideoBoxEvents = ({videoBox, elMediaControls}) => {
+  const elapsedTag = elMediaControls.getElementById('elapsed');
+  videoBox.onTimeInterval(seconds => {
     const min = Math.floor(seconds / 60);
     const sec = seconds - (min * 60);
     elapsedTag.innerText = `${min < 10 ? '0' + min : min}:${(sec < 10 ? '0' + sec : sec)}`;
   });
-  recorder.onStart(_ => {
+  videoBox.onStart(_ => {
     const tmplRecordingInfo = cloneTemplate('tmplRecordingInfo');
-    if (tmplRecordingInfo && elMediaPreview)
-      elMediaPreview.querySelector('.recording-info').replaceChildren(tmplRecordingInfo);
+    if (tmplRecordingInfo && tagMediaPreview)
+      tagMediaPreview.querySelector('.recording-info').replaceChildren(tmplRecordingInfo);
   });
-  recorder.onStop(_ => {
-    btnRec.checked = false;
+  videoBox.onStop(_ => {
     const tmplRecordingInfoStop = cloneTemplate('tmplRecordingInfoStop');
-    if (tmplRecordingInfoStop && elMediaPreview)
-      elMediaPreview.querySelector('.recording-info').replaceChildren(tmplRecordingInfoStop);
+    if (tmplRecordingInfoStop && tagMediaPreview)
+      tagMediaPreview.querySelector('.recording-info').replaceChildren(tmplRecordingInfoStop);
   });
-  recorder.start();
 }
 
 
-const stopRecording = () => {
-  if (recorder)
-    recorder.stop();
-}
-
-
-const renderMediaControls = () => {
+const renderMediaControls = ({videoBox}) => {
   const elMediaControls = cloneTemplate('tmplMediaControls');
   if (!elMediaControls)
     return;
   const btnRec = elMediaControls.getElementById('btnRec');
-  const elapsedTag = elMediaControls.getElementById('elapsed');
+  handleVideoBoxEvents({videoBox, elMediaControls});
+  videoBox.onStop(_ => {btnRec.checked = false});
   btnRec.addEventListener('change', e => {
     if (e.target.checked)
-      startRecording({elMediaControls, elapsedTag, btnRec});
-    else
-      stopRecording();
+      videoBox.startRecording();
+    else {
+      videoBox.stopRecording();
+    }
   });
-  elMediaPreview.appendChild(elMediaControls);
+  tagMediaPreview.appendChild(elMediaControls);
 }
 
 
-const renderSelectMedia = () => {
+const renderSelectMedia = ({videoBox}) => {
   const elSelectMedia = cloneTemplate('tmplSelectMedia');
   if (!elSelectMedia)
     return;
@@ -71,21 +51,23 @@ const renderSelectMedia = () => {
   btn.addEventListener('click', async e => {
     e.preventDefault();
     e.stopPropagation();
-    await selectMedia();
-    if (hasMediaSelected()) {
+    await videoBox.selectDisplayMedia()
+      .then(_ => videoBox.startPreview())
+      .catch(error => alert("Nie można wybrać urządzenia wideo!"));
+    if (videoBox.hasMedia) {
       btn.remove();
-      elMediaPreview.querySelector('.select-media').remove();
-      renderMediaControls();
+      tagMediaPreview.querySelector('.select-media').remove();
+      renderMediaControls({videoBox});
     }
   });
-  elMediaPreview.appendChild(elSelectMedia);
+  tagMediaPreview.appendChild(elSelectMedia);
 }
 
 
 const run = () => {
-  if (!hasMediaSelected()) {
-    renderSelectMedia();
-  }
+  const videoTag = document.getElementById('mediaPreview');
+  const videoBox = createVideoBox({videoTag});
+  renderSelectMedia({videoBox});
 }
 
 run()

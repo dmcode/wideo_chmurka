@@ -35,6 +35,7 @@ services:
       - "8000:8000"
     volumes:
       - '.:/srv/app'
+      - './docker/php/php.ini-development:/usr/local/etc/php/php.ini'
     user: 1000:1000
     depends_on:
       - main_db

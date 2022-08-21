@@ -3,7 +3,7 @@ class VideoRecorder {
     constructor({media, mimeType="video/webm"}) {
         this._mimeType = mimeType;
         this._chunks = [];
-        this._timeLimit = 10;
+        this._timeLimit = 15 * 60;  // max 15 min
         this._startTime = 0;
         this._timeInterval = null;
         this._timeIntervalHandlers = [];

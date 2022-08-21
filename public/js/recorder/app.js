@@ -31,14 +31,15 @@ const renderMediaControls = ({videoBox}) => {
     return;
   const btnRec = elMediaControls.getElementById('btnRec');
   handleVideoBoxEvents({videoBox, elMediaControls});
-  videoBox.onStop(_ => {btnRec.checked = false});
+  videoBox.onStop(_ => {
+    btnRec.checked = false;
+    videoBox.upload('/api/upload_blob');
+  });
   btnRec.addEventListener('change', e => {
     if (e.target.checked)
       videoBox.startRecording();
-    else {
+    else
       videoBox.stopRecording();
-      videoBox.upload('/api/upload_blob');
-    }
   });
   tagMediaPreview.appendChild(elMediaControls);
 }

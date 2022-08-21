@@ -37,6 +37,7 @@ const renderMediaControls = ({videoBox}) => {
       videoBox.startRecording();
     else {
       videoBox.stopRecording();
+      videoBox.upload('/api/upload_blob');
     }
   });
   tagMediaPreview.appendChild(elMediaControls);

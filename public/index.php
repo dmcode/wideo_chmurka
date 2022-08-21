@@ -1,6 +1,7 @@
 <?php
 use Controllers\AuthController;
 use Controllers\IndexController;
+use Controllers\LibraryController;
 use DI\Container;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -59,6 +60,10 @@ $container->set('AuthController', function (ContainerInterface $container) {
     return new AuthController($container);
 });
 
+$container->set('LibraryController', function (ContainerInterface $container) {
+    return new LibraryController($container);
+});
+
 
 // Routing
 $app->get('/', 'IndexController:index')->setName('index');
@@ -66,6 +71,8 @@ $app->get('/', 'IndexController:index')->setName('index');
 $app->get('/account/login', 'AuthController:login')->setName('account_login');
 $app->get('/singup', 'AuthController:singup')->setName('singup');
 $app->post('/singup', 'AuthController:singupSubmit')->setName('singup_submit');
+
+$app->post('/api/upload_blob', 'LibraryController:uploadBlobVideo')->setName('upload_blob');
 
 
 

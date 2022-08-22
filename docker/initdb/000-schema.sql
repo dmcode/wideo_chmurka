@@ -9,8 +9,8 @@ create table user
     date_joined datetime not null default CURRENT_TIMESTAMP,
     last_login datetime default null
 )
-character set utf8mb4 collate utf8mb4_unicode_ci
-comment 'Konta użytkowników'
+    character set utf8mb4 collate utf8mb4_unicode_ci
+    comment 'Konta użytkowników'
 ;
 
 alter table user
@@ -29,10 +29,34 @@ create table video
     res_h smallint not null default 0,
     size integer unsigned not null default 0,
     codec_name varchar(20) default null,
-    format_name varchar(20) default null,
-    title varchar(100) default null
-);
+    format_name varchar(20) default null
+)
+    character set utf8mb4 collate utf8mb4_unicode_ci
+    comment 'Repozytorium wideo'
+;
 
 alter table video
     add constraint v_uidx_slug unique (slug)
+;
+
+
+create table library
+(
+    id int unsigned auto_increment primary key,
+    user_id int unsigned not null,
+    video_id int unsigned not null,
+    visibility ENUM('private', 'protected', 'public') default 'private',
+    thumb varchar(128) default null,
+    title varchar(100) default null,
+    description varchar(1000) default null
+)
+    character set utf8mb4 collate utf8mb4_unicode_ci
+    comment 'Biblioteka wideo użytkownika'
+;
+
+alter table library
+    add index l_idx_user_id  (user_id),
+    add constraint l_uidx_user_video unique (user_id, video_id),
+    add constraint l_fk_user foreign key (user_id)
+        references user(id) on delete cascade
 ;

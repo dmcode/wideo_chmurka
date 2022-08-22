@@ -4,6 +4,7 @@ use Controllers\IndexController;
 use Controllers\LibraryController;
 use DI\Container;
 use Middleware\AuthMiddleware;
+use Middleware\LoginRequired;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -98,14 +99,8 @@ $app->get('/logout', 'AuthController:logout')->setName('logout');
 $app->get('/singup', 'AuthController:singup')->setName('singup');
 $app->post('/singup', 'AuthController:singupSubmit')->setName('singup_submit');
 $app->post('/api/upload_blob', 'LibraryController:uploadBlobVideo')->setName('upload_blob');
-
-
-
-$app->get('/hello/{name}', function ($request, $response, $args) {
-    $view = Twig::fromRequest($request);
-    return $view->render($response, 'layout.html.twig', [
-        'name' => $args['name']
-    ]);
-})->setName('profile');
+$app->get('/library', 'LibraryController:index')
+    ->add((function() use ($container) { return new LoginRequired($container); })())
+    ->setName('library');
 
 $app->run();

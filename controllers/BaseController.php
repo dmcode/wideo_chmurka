@@ -24,8 +24,10 @@ class BaseController
 
     public function redirect(Response $response, $name)
     {
-        $parser = $this->get('route.parser');
-        $url = $parser->urlFor($name, []);
+        if (str_starts_with($name, '/'))
+            $url = $name;
+        else
+            $url = $this->get('route.parser')->urlFor($name, []);
         return $response
             ->withHeader('Location', $url)
             ->withStatus(302);

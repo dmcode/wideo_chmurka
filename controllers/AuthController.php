@@ -10,6 +10,9 @@ class AuthController extends BaseController
 {
     public function login(Request $request, Response $response, $args): Response
     {
+        $params = $request->getQueryParams();
+        if (isset($params['next']) && strlen($params['next'])>0)
+            $this->get('session')->set('next', $params['next']);
         return $this->render($response, 'login.html.twig');
     }
 
@@ -18,7 +21,9 @@ class AuthController extends BaseController
         try {
             $data = $request->getParsedBody();
             $this->get('auth')->authenticate($data['email'], $data['password']);
-            return $this->redirect($response, 'index');
+            $next = $this->get('session')->get('next', 'index');
+            $this->get('session')->delete('next');
+            return $this->redirect($response, $next);
         }
         catch (\InvalidArgumentException) {
 

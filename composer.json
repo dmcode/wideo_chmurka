@@ -2,6 +2,7 @@
     "autoload": {
         "psr-4": {
             "Controllers\\": "controllers/",
+            "Middleware\\": "middleware/",
             "Services\\": "services/",
             "Twig\\": "twig/"
         }

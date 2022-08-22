@@ -28,6 +28,8 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
         return [
             new TwigFunction('url_for', [$this, 'url_for']),
             new TwigFunction('url_css', [$this, 'url_css']),
+            new TwigFunction('authenticated', [$this, 'authenticated']),
+            new TwigFunction('username', [$this, 'username']),
         ];
     }
     public function url_for($name, $queryParams=[])
@@ -41,5 +43,16 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
         if (!str_ends_with($path, '.css'))
             $path = $path . '.css';
         return '/css/'.$path;
+    }
+
+    public function authenticated(): bool
+    {
+        return $this->container->get('auth')->isAuthenticated();
+    }
+
+    public function username(): string
+    {
+        $user = $this->container->get('auth')->getAuthenticatedUser();
+        return $user->email;
     }
 }

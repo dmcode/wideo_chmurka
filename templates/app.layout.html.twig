@@ -4,7 +4,12 @@
     <header>
         {{ include("partial/appbranding.html.twig") }}
         <div class="account">
-            <a href="{{ url_for('account_login') }}">Zaloguj się</a>
+            {% if not authenticated() %}
+                <a href="{{ url_for('login') }}">Zaloguj się</a>
+            {% else %}
+                <span class="username">Witaj {{ username() }}!</span>
+                <a href="{{ url_for('logout') }}">Wyloguj</a>
+            {% endif %}
         </div>
     </header>
     <main>{% block content %}{% endblock %}</main>

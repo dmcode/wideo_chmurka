@@ -3,10 +3,11 @@ use Controllers\AuthController;
 use Controllers\IndexController;
 use Controllers\LibraryController;
 use DI\Container;
+use Middleware\AuthMiddleware;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Services\AccountService;
+use Services\AuthService;
 use Services\DatabaseService;
 use Services\StorageService;
 use Services\VideoService;
@@ -14,6 +15,7 @@ use Slim\Factory\AppFactory;
 use Slim\Middleware\Session;
 use Slim\Views\Twig;
 use Slim\Views\TwigMiddleware;
+use SlimSession\Helper;
 use Twig\AppExtension;
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -26,6 +28,10 @@ $dotenv->load();
 $container = new Container();
 $app = AppFactory::createFromContainer($container);
 
+$app->add((function () use ($container) {
+    return new AuthMiddleware($container);
+})());
+
 $app->add(
     new Session([
         'name' => 'SESSID',
@@ -34,6 +40,11 @@ $app->add(
         'httponly' => true
     ])
 );
+
+
+$container->set('session', function () {
+    return new Helper();
+});
 
 $container->set('route.parser', function (ContainerInterface $container) use ($app) {
     return $app->getRouteCollector()->getRouteParser();
@@ -52,8 +63,8 @@ $container->set('db', function (ContainerInterface $container) {
     return new DatabaseService($container);
 });
 
-$container->set('account', function (ContainerInterface $container) {
-    return new AccountService($container);
+$container->set('auth', function (ContainerInterface $container) {
+    return new AuthService($container);
 });
 
 $container->set('storage', function (ContainerInterface $container) {
@@ -81,7 +92,9 @@ $container->set('LibraryController', function (ContainerInterface $container) {
 
 // Routing
 $app->get('/', 'IndexController:index')->setName('index');
-$app->get('/account/login', 'AuthController:login')->setName('account_login');
+$app->get('/login', 'AuthController:login')->setName('login');
+$app->post('/login', 'AuthController:loginSubmit')->setName('login_submit');
+$app->get('/logout', 'AuthController:logout')->setName('logout');
 $app->get('/singup', 'AuthController:singup')->setName('singup');
 $app->post('/singup', 'AuthController:singupSubmit')->setName('singup_submit');
 $app->post('/api/upload_blob', 'LibraryController:uploadBlobVideo')->setName('upload_blob');

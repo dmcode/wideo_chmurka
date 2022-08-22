@@ -15,11 +15,21 @@ class AuthController extends BaseController
 
     public function loginSubmit(Request $request, Response $response, $args): Response
     {
-        $data = $request->getParsedBody();
-        $user = $this->get('account')->login($data);
-        if ($user)
+        try {
+            $data = $request->getParsedBody();
+            $this->get('auth')->authenticate($data['email'], $data['password']);
             return $this->redirect($response, 'index');
-        return $this->redirect($response, 'account_login');
+        }
+        catch (\InvalidArgumentException) {
+
+        }
+        return $this->redirect($response, 'login');
+    }
+
+    public function logout(Request $request, Response $response, $args): Response
+    {
+        $this->get('auth')->logout();
+        return $this->redirect($response, 'index');
     }
 
     public function singup(Request $request, Response $response, $args): Response
@@ -30,9 +40,9 @@ class AuthController extends BaseController
     public function singupSubmit(Request $request, Response $response, $args): Response
     {
         $data = $request->getParsedBody();
-        $user = $this->get('account')->create($data);
+        $user = $this->get('auth')->create($data);
         if ($user)
-            return $this->redirect($response, 'account_login');
+            return $this->redirect($response, 'login');
         return $this->redirect($response, 'singup');
     }
 }

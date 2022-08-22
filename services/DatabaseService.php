@@ -67,6 +67,21 @@ class DatabaseService extends BaseService
         return $stmt;
     }
 
+    public function update($table, array $data, array $conditions = [], $limit=null)
+    {
+        $fields = array_map(fn($field): string => "$field = :{$field}_value", array_keys($data));
+        $sql = $this->buildConditions(
+            sprintf('UPDATE %s SET %s ', $table, implode(', ', $fields)),
+            $conditions, $limit
+        );
+        $values = [];
+        array_walk($data, function($item, $key) use (&$values) {
+            $values[$key . "_value"] = $item;
+        });
+        $stmt = $this->connect()->prepare($sql);
+        $stmt->execute(array_merge($values, $conditions));
+    }
+
     protected function buildConditions(string $sql, array $conditions = [], $limit=null)
     {
         if (count($conditions) > 0) {

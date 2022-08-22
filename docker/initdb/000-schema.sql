@@ -6,7 +6,8 @@ create table user
     email varchar(128) not null,
     password varchar(250) not null,
     is_active boolean not null default true,
-    date_joined datetime not null default CURRENT_TIMESTAMP
+    date_joined datetime not null default CURRENT_TIMESTAMP,
+    last_login datetime default null
 )
 character set utf8mb4 collate utf8mb4_unicode_ci
 comment 'Konta użytkowników'

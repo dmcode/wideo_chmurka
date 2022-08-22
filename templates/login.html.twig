@@ -2,15 +2,15 @@
 
 {% block body %}
     <div class="page-login">
-        <div class="form-login-card">
+        <div class="form-auth-card">
             {{ include("partial/appbranding.html.twig") }}
             <div>
                 Nie masz konta? <a href="{{ url_for('singup') }}">Załóż konto</a>
             </div>
-            <form class="login">
+            <form class="login" method="post" action="{{ url_for('login_submit') }}">
                 <label>
-                    <span>Nazwa użytkownika</span>
-                    <input type="text" maxlength="128" required name="username"/>
+                    <span>Adres e-mail</span>
+                    <input type="email" maxlength="128" required name="email"/>
                 </label>
                 <label>
                     <span>Hasło</span>

@@ -11,4 +11,9 @@ class BaseService
     {
         return $this->container->get($service);
     }
+
+    public function getAuthenticatedUser()
+    {
+        return $this->get('auth')->getAuthenticatedUser();
+    }
 }

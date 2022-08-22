@@ -10,6 +10,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Services\AuthService;
 use Services\DatabaseService;
+use Services\LibraryService;
 use Services\StorageService;
 use Services\VideoService;
 use Slim\Factory\AppFactory;
@@ -76,6 +77,10 @@ $container->set('video', function (ContainerInterface $container) {
     return new VideoService($container);
 });
 
+$container->set('library', function (ContainerInterface $container) {
+    return new LibraryService($container);
+});
+
 
 // Controllers
 $container->set('IndexController', function (ContainerInterface $container) {
@@ -93,12 +98,19 @@ $container->set('LibraryController', function (ContainerInterface $container) {
 
 // Routing
 $app->get('/', 'IndexController:index')->setName('index');
+
 $app->get('/login', 'AuthController:login')->setName('login');
 $app->post('/login', 'AuthController:loginSubmit')->setName('login_submit');
+
 $app->get('/logout', 'AuthController:logout')->setName('logout');
+
 $app->get('/singup', 'AuthController:singup')->setName('singup');
 $app->post('/singup', 'AuthController:singupSubmit')->setName('singup_submit');
-$app->post('/api/upload_blob', 'LibraryController:uploadBlobVideo')->setName('upload_blob');
+
+$app->post('/api/upload_blob', 'LibraryController:uploadBlobVideo')
+    ->add((function() use ($container) { return new LoginRequired($container); })())
+    ->setName('upload_blob');
+
 $app->get('/library', 'LibraryController:index')
     ->add((function() use ($container) { return new LoginRequired($container); })())
     ->setName('library');

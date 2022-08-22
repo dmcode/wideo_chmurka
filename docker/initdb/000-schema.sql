@@ -58,5 +58,8 @@ alter table library
     add index l_idx_user_id  (user_id),
     add constraint l_uidx_user_video unique (user_id, video_id),
     add constraint l_fk_user foreign key (user_id)
-        references user(id) on delete cascade
+        references user(id) on delete cascade,
+    add index l_idx_video_id  (video_id),
+    add constraint l_fk_video foreign key (video_id)
+        references video(id) on delete cascade
 ;

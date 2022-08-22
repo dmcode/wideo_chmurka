@@ -19,13 +19,9 @@ class LibraryController extends BaseController
         if (empty($files))
             throw new \InvalidArgumentException("The video data does not exists.");
 
-        $video = $this->get('video');
-        if (!$video)
-            throw new \RuntimeException("The video service does not exists.");
-
-        foreach ($files as $file) {
-            $video->createFromUploaded($file);
-        }
+        $library = $this->get('library');
+        foreach ($files as $file)
+            $library->createFromUploaded($file);
 
         return $response;
     }

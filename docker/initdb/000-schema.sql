@@ -26,6 +26,9 @@ create table video
     duration integer not null default 0,
     res_w smallint not null default 0,
     res_h smallint not null default 0,
+    size integer unsigned not null default 0,
+    codec_name varchar(20) default null,
+    format_name varchar(20) default null,
     title varchar(100) default null
 );
 

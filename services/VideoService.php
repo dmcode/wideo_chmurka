@@ -8,7 +8,7 @@ use Slim\Psr7\UploadedFile;
 
 class VideoService extends BaseService
 {
-    public function createFromUploaded(UploadedFile $file)
+    public function createFromUploaded(UploadedFile $file): \stdClass
     {
         if ($file->getError())
             throw new \InvalidArgumentException("Uploading error");
@@ -18,13 +18,29 @@ class VideoService extends BaseService
             throw new \InvalidArgumentException("Invalid media file.");
 
         $fileId = $this->get('storage')->save($processed);
-        $this->createFromStorageFile($fileId);
+        return $this->createFromStorageFile($fileId);
     }
 
-    public function createFromStorageFile($fileId)
+    public function createFromStorageFile(string $fileId): \stdClass
     {
         $file = $this->get('storage')->open($fileId);
-        $entity = $this->get('db')->insert('video', ['slug' => $fileId]);
+        $entity = $this->get('db')->insert('video', array_merge(['slug' => $fileId], self::getMediaAttributes($file)));
+        return $entity;
+    }
+
+    static public function getMediaAttributes(\SplFileObject $file): array
+    {
+        $ffprobe = FFProbe::create();
+        $v_stream = $ffprobe->streams($file->getPathname())->videos()->first();
+        $v_format = $ffprobe->format($file->getPathname());
+        return [
+            'duration' => $v_format->get('duration', 0),
+            'res_w' => $v_stream->get('width', 0),
+            'res_h' => $v_stream->get('height', 0),
+            'size' => $v_format->get('size', 0),
+            'codec_name' => $v_stream->get('codec_name'),
+            'format_name' => $v_format->get('format_name'),
+        ];
     }
 
     static public function isValidMedia($file)

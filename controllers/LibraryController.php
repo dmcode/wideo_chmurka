@@ -10,7 +10,7 @@ class LibraryController extends BaseController
 {
     public function index(Request $request, Response $response, $args): Response
     {
-        return $response;
+        return $this->render($response, 'library.html.twig');
     }
 
     public function uploadBlobVideo(Request $request, Response $response, $args): Response

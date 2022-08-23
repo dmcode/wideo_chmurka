@@ -3,14 +3,15 @@
 {% block body %}
     <header>
         {{ include("partial/appbranding.html.twig") }}
-        <div class="account">
+        <nav class="account">
             {% if not authenticated() %}
                 <a href="{{ url_for('login') }}">Zaloguj się</a>
             {% else %}
-                <span class="username">Witaj {{ username() }}!</span>
-                <a href="{{ url_for('logout') }}">Wyloguj</a>
+                <a href="{{ url_for('library') }}" class="btn-library">Biblioteka</a>
+                <div class="user"><i class="fa-solid fa-circle-user"></i><span class="username">{{ username() }}</span></div>
+                <a href="{{ url_for('logout') }}" title="Wyloguj" class="btn-logout"><i class="fa-solid fa-right-from-bracket"></i></a>
             {% endif %}
-        </div>
+        </nav>
     </header>
     <main>{% block content %}{% endblock %}</main>
     {% block template %}{% endblock %}

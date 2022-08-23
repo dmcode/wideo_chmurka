@@ -11,6 +11,7 @@ body {
 body > header {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     height: 80px;
     border-bottom: 2px solid red;
     padding: 0 1rem;
@@ -36,6 +37,45 @@ body > header {
     display: block;
     height: 60px;
     width: 60px;
+}
+
+nav.account {
+    display: flex;
+    align-items: center;
+    gap: 1.8rem;
+}
+
+nav.account a {
+    display: block;
+    color: #322525;
+    font-size: var(--size-d13);
+    font-weight: 500;
+    letter-spacing: 0.1rem;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+nav.account a:hover {
+    color: var(--blue-primary);
+}
+
+nav.account .user {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    color: white;
+    font-size: var(--size-d14);
+    background: var(--blue-primary);
+    padding: 0.3rem 0.5rem;
+    border-radius: 12px;
+}
+
+nav.account .user i {
+    font-size: var(--size-d20);
+}
+
+nav.account .btn-logout {
+    font-size: var(--size-d26);
 }
 
 

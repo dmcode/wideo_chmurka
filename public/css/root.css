@@ -1,20 +1,7 @@
 :root {
     --text-primary: #001937;
-    --text-blue2: #0a99ff;
     --dark-primary: #001937;
-    --blue-primary: #0082FE;
-    --yellow-primary: #FFCD55;
-    --gray-1: #f4f4f4;
-    --gray-2: #e2e2e2;
-    --gray-b1: #b1b1b1;
-    --gray-d1: #d1d1d1;
-    --gray-d6: #d6d6d6;
-    --gray-e2: #e2e2e2;
-    --gray-e3: #e3e3e3;
-    --gray-3: #b1b1b1;
-    --gray-4: #919191;
-    --gray-70: #707070;
-    --salary: #0095ff;
+    --blue-primary: #318ed1;
     --size-d12: 0.75rem;
     --size-d13: 0.8125rem;
     --size-d14: 0.875rem;

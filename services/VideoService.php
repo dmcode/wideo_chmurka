@@ -3,11 +3,17 @@ namespace Services;
 
 use FFMpeg\FFMpeg;
 use FFMpeg\FFProbe;
+use FFMpeg\Coordinate\TimeCode;
 use Slim\Psr7\UploadedFile;
 
 
 class VideoService extends BaseService
 {
+    public function getVideoFile($fileId): \SplFileObject
+    {
+        return $this->storage()->open($fileId);
+    }
+
     public function createFromUploaded(UploadedFile $file): \stdClass
     {
         if ($file->getError())
@@ -17,14 +23,14 @@ class VideoService extends BaseService
         if (!$processed || !self::isValidMedia($processed))
             throw new \InvalidArgumentException("Invalid media file.");
 
-        $fileId = $this->get('storage')->save($processed);
+        $fileId = $this->storage()->save($processed);
         return $this->createFromStorageFile($fileId);
     }
 
     public function createFromStorageFile(string $fileId): \stdClass
     {
-        $file = $this->get('storage')->open($fileId);
-        $entity = $this->get('db')->insert('video', array_merge(['slug' => $fileId], self::getMediaAttributes($file)));
+        $file = $this->getVideoFile($fileId);
+        $entity = $this->db()->insert('video', array_merge(['slug' => $fileId], self::getMediaAttributes($file)));
         return $entity;
     }
 
@@ -69,5 +75,19 @@ class VideoService extends BaseService
             $file->getSize(),
             $file->getError()
         );
+    }
+
+    public function getFrame($video, $quantity)
+    {
+        $path = null;
+        if (is_string($video))
+            $video = $this->getVideoFile($video);
+        if ($video instanceof \SplFileObject)
+            $path = $video->getPathname();
+        if (!$path)
+            throw new \InvalidArgumentException("The video file does not exists..");
+        $ffmpeg = FFMpeg::create();
+        $video = $ffmpeg->open($path);
+        return $video->frame(TimeCode::fromSeconds($quantity));
     }
 }

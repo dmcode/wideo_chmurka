@@ -6,10 +6,18 @@ use Slim\Psr7\UploadedFile;
 
 class StorageService extends BaseService
 {
-    public function save(UploadedFile $file): string
+    public function save(\SplFileObject|UploadedFile $file): string
     {
         $id = self::fileid();
-        $file->moveTo(self::generateFilePath($id));
+        $path = self::generateFilePath($id);
+        if ($file instanceof UploadedFile) {
+            $file->moveTo($path);
+        }
+        else {
+            $fromPath = $file->getPathname();
+            if (!rename($fromPath, $path))
+                throw new \InvalidArgumentException(sprintf("Error moving file %s to %s", $fromPath, $path));
+        }
         return $id;
     }
 

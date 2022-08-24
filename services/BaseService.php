@@ -16,4 +16,14 @@ class BaseService
     {
         return $this->get('auth')->getAuthenticatedUser();
     }
+
+    public function db()
+    {
+        return $this->get('db');
+    }
+
+    public function storage()
+    {
+        return $this->get('storage');
+    }
 }

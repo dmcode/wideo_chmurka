@@ -32,4 +32,14 @@ class BaseController
             ->withHeader('Location', $url)
             ->withStatus(302);
     }
+
+    public function getAuthenticatedUser()
+    {
+        return $this->get('auth')->getAuthenticatedUser();
+    }
+
+    protected function library()
+    {
+        return $this->get('library');
+    }
 }

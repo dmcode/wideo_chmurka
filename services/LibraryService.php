@@ -31,6 +31,11 @@ class LibraryService extends BaseService
         return $this->storage()->save($file);
     }
 
+    public function getEntity($slug)
+    {
+        return $this->db()->fetch('library l left join video v on (l.video_id=v.id)', ['slug' => $slug]);
+    }
+
     protected function video()
     {
         return $this->get('video');

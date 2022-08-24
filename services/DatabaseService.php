@@ -35,9 +35,9 @@ class DatabaseService extends BaseService
         return $this->connection;
     }
 
-    public function fetch($table, array $conditions)
+    public function fetch($table, array $conditions, array $fields=['*'])
     {
-        $stmt = $this->select($table, $conditions, ['*'], 1);
+        $stmt = $this->select($table, $conditions, $fields, 1);
         return $stmt->fetch(\PDO::FETCH_OBJ);
     }
 

@@ -2,6 +2,7 @@
 use Controllers\AuthController;
 use Controllers\IndexController;
 use Controllers\LibraryController;
+use Controllers\StreamController;
 use DI\Container;
 use Middleware\AuthMiddleware;
 use Middleware\LoginRequired;
@@ -95,6 +96,10 @@ $container->set('LibraryController', function (ContainerInterface $container) {
     return new LibraryController($container);
 });
 
+$container->set('StreamController', function (ContainerInterface $container) {
+    return new StreamController($container);
+});
+
 
 // Routing
 $app->get('/', 'IndexController:index')->setName('index');
@@ -114,5 +119,12 @@ $app->post('/api/upload_blob', 'LibraryController:uploadBlobVideo')
 $app->get('/library', 'LibraryController:index')
     ->add((function() use ($container) { return new LoginRequired($container); })())
     ->setName('library');
+
+$app->get('/library/{video_slug}', 'LibraryController:video')
+    ->add((function() use ($container) { return new LoginRequired($container); })())
+    ->setName('library_video');
+
+$app->get('/stream/{video_slug}', 'StreamController:video')
+    ->setName('stream_video');
 
 $app->run();

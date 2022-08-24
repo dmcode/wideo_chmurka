@@ -29,7 +29,8 @@ class LoginRequired implements MiddlewareInterface
             $path = $request->getUri()->getPath();
             $parser = $this->container->get('route.parser');
             $url = $parser->urlFor('login', [], ['next' => $path]);
-            return $handler->handle($request)
+            $response = new Response();
+            return $response
                 ->withHeader('Location', $url)
                 ->withStatus(302);
         }

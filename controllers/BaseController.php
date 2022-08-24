@@ -42,4 +42,9 @@ class BaseController
     {
         return $this->get('library');
     }
+
+    protected function storage()
+    {
+        return $this->get('storage');
+    }
 }

@@ -1,34 +1,24 @@
 <?php
-
 namespace Controllers;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Slim\Exception\HttpNotFoundException;
 
 
 class LibraryController extends BaseController
 {
+    use VideoTrait;
+
     public function index(Request $request, Response $response, $args): Response
     {
-        return $this->render($response, 'library.html.twig');
+        $entities = $this->library()->findEntities($this->getAuthenticatedUser());
+        return $this->render($response, 'library.html.twig', ['entities' => $entities]);
     }
 
     public function video(Request $request, Response $response, $args): Response
     {
-        try {
-            $slug = $args['video_slug'];
-            $entity = $this->library()->getEntity($slug);
-            if (!$entity)
-                throw new \InvalidArgumentException("Niepoprawny identyfikator wideo.");
-            $user = $this->getAuthenticatedUser();
-            if (!$user || $entity->user_id != $user->id)
-                throw new \InvalidArgumentException("Nie posiadasz uprawnień do tego obiektu.");
-            return $this->render($response, 'library/video.html.twig', ['video_slug' => $slug]);
-        }
-        catch (\InvalidArgumentException) {
-            throw new HttpNotFoundException($request);
-        }
+        $video = $this->getVideo($args['video_slug']);
+        return $this->render($response, 'library/video.html.twig', ['video' => $video]);
     }
 
     public function uploadBlobVideo(Request $request, Response $response, $args): Response

@@ -41,6 +41,12 @@ class DatabaseService extends BaseService
         return $stmt->fetch(\PDO::FETCH_OBJ);
     }
 
+    public function find($table, array $conditions, array $fields=['*'])
+    {
+        $stmt = $this->select($table, $conditions, $fields);
+        return $stmt->fetchAll(\PDO::FETCH_OBJ);
+    }
+
     public function insert($table, array $data, $fetch=true)
     {
         $fields = array_keys($data);

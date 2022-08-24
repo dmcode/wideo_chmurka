@@ -1,2 +1,11 @@
 {% extends "app.layout.html.twig" %}
 
+{% block content %}
+    <div>
+        <ul>
+            {% for item in entities %}
+                <li><a href="{{ url_for('library_video', {'video_slug': item.slug}) }}">{{ item.title }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

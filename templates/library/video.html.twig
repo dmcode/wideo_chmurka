@@ -2,8 +2,8 @@
 
 {% block content %}
     <div>
-        <video autoplay loop>
-            <source src="{{ url_for('stream_video', {'video_slug' : video_slug}) }}" type="video/webm">
+        <video autoplay loop controls style="width: 640px">
+            <source src="{{ url_for('stream_video', {'video_slug' : video.slug}) }}" type="video/webm">
         </video>
     </div>
 {% endblock %}

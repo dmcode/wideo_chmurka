@@ -10,6 +10,9 @@ use Twig\TwigFunction;
 class AppExtension extends AbstractExtension implements GlobalsInterface
 {
     private $container;
+    private $visibilityDict = [
+        'private' => 'prywatny', 'protected' => 'niepubliczny', 'public' => 'publiczny'
+    ];
 
     public function __construct(ContainerInterface $container) {
         $this->container = $container;
@@ -30,8 +33,11 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
             new TwigFunction('url_css', [$this, 'url_css']),
             new TwigFunction('authenticated', [$this, 'authenticated']),
             new TwigFunction('username', [$this, 'username']),
+            new TwigFunction('visibility', [$this, 'visibility']),
+            new TwigFunction('duration', [$this, 'duration'])
         ];
     }
+
     public function url_for($name, $queryParams=[])
     {
         $parser = $this->container->get('route.parser');
@@ -54,5 +60,21 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
     {
         $user = $this->container->get('auth')->getAuthenticatedUser();
         return $user->email;
+    }
+
+    public function visibility($visibility): string
+    {
+        return isset($this->visibilityDict[$visibility]) ? $this->visibilityDict[$visibility] : $visibility;
+    }
+
+    public function duration($duration): string
+    {
+        $min = floor($duration / 60);
+        if ($min < 10)
+            $min = '0'.$min;
+        $sec = $duration - ($min * 60);
+        if ($sec < 10)
+            $sec = '0'.$sec;
+        return "$min:$sec";
     }
 }

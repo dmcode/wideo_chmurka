@@ -33,7 +33,7 @@ class LibraryService extends BaseService
 
     public function findEntities($user)
     {
-        return $this->db()->find('library l left join video v on (l.video_id=v.id)', ['user_id' => $user->id]);
+        return $this->db()->find('library l left join video v on (l.video_id=v.id)', ['user_id' => $user->id], ['*'], ['created_at DESC']);
     }
 
     public function getEntity($slug)

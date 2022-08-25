@@ -41,9 +41,9 @@ class DatabaseService extends BaseService
         return $stmt->fetch(\PDO::FETCH_OBJ);
     }
 
-    public function find($table, array $conditions, array $fields=['*'])
+    public function find($table, array $conditions, array $fields=['*'], array $order=[], $limit=null)
     {
-        $stmt = $this->select($table, $conditions, $fields);
+        $stmt = $this->select($table, $conditions, $fields, $limit, $order);
         return $stmt->fetchAll(\PDO::FETCH_OBJ);
     }
 
@@ -62,11 +62,11 @@ class DatabaseService extends BaseService
         return $id;
     }
 
-    public function select($table, array $conditions = [], array $fields=['*'], $limit=null)
+    public function select($table, array $conditions = [], array $fields=['*'], $limit=null, array $order=[])
     {
         $sql = $this->buildConditions(
             sprintf('SELECT %s FROM %s ', implode(', ', $fields), $table),
-            $conditions, $limit
+            $conditions, $limit, $order
         );
         $stmt = $this->connect()->prepare($sql);
         $stmt->execute($conditions);
@@ -88,7 +88,7 @@ class DatabaseService extends BaseService
         $stmt->execute(array_merge($values, $conditions));
     }
 
-    protected function buildConditions(string $sql, array $conditions = [], $limit=null)
+    protected function buildConditions(string $sql, array $conditions = [], $limit=null, array $order=[])
     {
         if (count($conditions) > 0) {
             $where = array_map(fn($field): string => "$field = :$field", array_keys($conditions));
@@ -96,6 +96,8 @@ class DatabaseService extends BaseService
         }
         if ($limit)
             $sql .= 'LIMIT '.$limit;
+        if (isset($order[0]))
+            $sql .= 'ORDER BY '. implode(',', $order);
         return $sql;
     }
 }

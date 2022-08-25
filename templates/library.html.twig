@@ -1,10 +1,28 @@
 {% extends "app.layout.html.twig" %}
 
 {% block content %}
-    <div>
-        <ul>
+    <div class="library">
+        <h1 class="page-title">Twoja biblioteka</h1>
+        <ul class="items">
             {% for item in entities %}
-                <li><a href="{{ url_for('library_video', {'video_slug': item.slug}) }}">{{ item.title }}</a></li>
+                <li>
+                    <a href="{{ url_for('library_video', {'video_slug': item.slug}) }}">
+                        <div class="video-thumb">
+                            <img src="{{ url_for('stream_thumb', {'thumb_id': item.thumb}) }}" alt=""/>
+                            <time class="duration">{{ duration(item.duration) }}</time>
+                        </div>
+                        <h2 class="title">{{ item.title }}</h2>
+                        <div class="attrs">
+                            <div class="visibility {{ item.visibility }}">
+                                {{ visibility(item.visibility) }}
+                            </div>
+                            <div class="res_codec">
+                                <span>{{ item.res_w }}x{{ item.res_h }}</span>
+                                <span class="codec">{{ item.codec_name }}</span>
+                            </div>
+                        </div>
+                    </a>
+                </li>
             {% endfor %}
         </ul>
     </div>

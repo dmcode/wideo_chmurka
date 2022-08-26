@@ -21,7 +21,8 @@ body > header {
 }
 
 main {
-    padding: 2rem 4%;
+    /*padding: 2rem 4%;*/
+    padding-bottom: 2rem;
 }
 
 .app-branding {
@@ -148,6 +149,9 @@ form.auth label span {
 
 .video-recorder {
     position: relative;
+    padding: 4rem 6em;
+    background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgba(0, 52, 89, 1) 0%, rgba(0, 168, 232, 1) 90%);
+    border-bottom: 2px solid rgba(0, 168, 232, 1);
 }
 
 .media-preview-wrapper {
@@ -155,6 +159,9 @@ form.auth label span {
     background: black;
     width: 640px;
     height: 360px;
+    box-shadow: 0 0 18px 0 rgba(0, 168, 232, 1);
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 .media-preview-wrapper video {

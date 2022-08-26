@@ -19,7 +19,7 @@ class StreamController extends BaseController
             $video = $this->getVideo($args['video_slug']);
             $file = $this->storage()->open($video->slug);
             $contentType = str_contains($video->format_name, 'webm') ? 'video/webm' : 'application/octet-stream';
-            return $this->streamResponse($file, $contentType);
+            return $this->streamResponse($request, $file, $contentType);
         }
         catch (\InvalidArgumentException) {
             throw new HttpNotFoundException($request);
@@ -31,19 +31,43 @@ class StreamController extends BaseController
         try {
             set_time_limit(0);
             $file = $this->storage()->open($args['thumb_id']);
-            return $this->streamResponse($file, 'image/jpeg');
+            return $this->streamResponse($request, $file, 'image/jpeg');
         }
         catch (\InvalidArgumentException) {
             throw new HttpNotFoundException($request);
         }
     }
 
-    protected function streamResponse(\SplFileObject $file, $contentType): ResponseInterface
+    protected function streamResponse(Request $request, \SplFileObject $file, $contentType): ResponseInterface
     {
+        list($start, $end, $size) = $this->range($request, $file);
         $response = new Response();
+        $stream = new Stream(fopen($file->getPathname(), 'r'));
+        if ($start > 0)
+            $stream->seek($start);
         return $response
-            ->withHeader('Content-Length', filesize($file->getPathname()))
             ->withHeader('Content-Type', $contentType)
-            ->withBody(new Stream(fopen($file->getPathname(), 'r')));
+            ->withHeader('Content-Length', $size)
+            ->withHeader('Accept-Ranges', 'bytes')
+            ->withHeader('Content-Range', "bytes $start-$end/$size")
+            ->withBody($stream);
+    }
+
+    private function range(Request $request, \SplFileObject $file)
+    {
+        $size = filesize($file->getPathname());
+        $range = [0, $size, $size];
+        $header = $request->getHeader('Range');
+        if (empty($header))
+            $header = ['bytes=0-'];
+        $matches = [];
+        if (preg_match('/^bytes=(\d+-(?:\d+)?)$/', $header[0], $matches)) {
+            $data = explode('-', $matches[1]);
+            if (isset($data[0]) && is_numeric($data[0]))
+                $range[0] = intval($data[0]);
+            if (isset($data[1]) && is_numeric($data[1]))
+                $range[1] = intval($data[1]);
+        }
+        return $range;
     }
 }

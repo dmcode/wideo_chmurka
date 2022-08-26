@@ -6,6 +6,7 @@ body {
     color: var(--text-primary);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background: #eef1f3;
 }
 
 body > header {
@@ -15,6 +16,8 @@ body > header {
     height: 80px;
     border-bottom: 2px solid red;
     padding: 0 1rem;
+    background: white;
+    box-shadow: 0 0 4px 0 rgba(130, 130, 138, 1);
 }
 
 main {
@@ -385,4 +388,17 @@ form.auth label span {
 
 .library .items .codec {
     text-transform: uppercase;
+}
+
+.video-editor {
+    display: flex;
+}
+
+.video-editor .player {
+    width: var(--video-editor-player-width);
+}
+
+.video-editor .player video {
+    width: var(--video-editor-player-width);
+    height: calc(var(--video-editor-player-width)/16*9);
 }

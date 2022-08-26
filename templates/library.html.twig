@@ -1,8 +1,12 @@
 {% extends "app.layout.html.twig" %}
 
+{% set title='Twoja biblioteka' %}
+
+{% block sitetitle %}{{ title }}{% endblock %}
+
 {% block content %}
     <div class="library">
-        <h1 class="page-title">Twoja biblioteka</h1>
+        <h1 class="page-title">{{ title }}</h1>
         <ul class="items">
             {% for item in entities %}
                 <li>

@@ -1,0 +1,18 @@
+{% block content %}
+<section class="block">
+    <h2 class="title">{{ title }}</h2>
+    <ul class="video-list">
+        {% for item in entities %}
+            <li>
+                <a href="{{ url_for('public_video', {'video_slug': item.slug}) }}">
+                    <div class="video-thumb">
+                        <img src="{{ url_for('stream_thumb', {'thumb_id': item.thumb}) }}" alt=""/>
+                        <time class="duration">{{ duration(item.duration) }}</time>
+                    </div>
+                    <h3 class="title">{{ item.title }}</h3>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</section>
+{% endblock %}

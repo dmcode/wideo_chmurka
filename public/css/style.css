@@ -18,11 +18,24 @@ body > header {
     padding: 0 1rem;
     background: white;
     box-shadow: 0 0 4px 0 rgba(130, 130, 138, 1);
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+body > footer {
+    color: #3d546e;
+    background: white;
+    padding: 2rem 4rem;
 }
 
 main {
-    /*padding: 2rem 4%;*/
+    border-bottom: 2px solid gray;
     padding-bottom: 2rem;
+}
+
+main > .block {
+    padding: 2rem 6rem;
 }
 
 .app-branding {
@@ -293,11 +306,13 @@ form.auth label span {
 }
 
 
+.block .title,
 .page-title {
     color: #29415e;
     letter-spacing: 0.1rem;
 }
 
+.video-list,
 .library .items {
     list-style: none;
     margin: 0;
@@ -308,13 +323,17 @@ form.auth label span {
     gap: 2rem;
 }
 
+.video-list a,
 .library .items a {
     display: block;
     color: var(--text-primary);
     text-decoration: none;
-    width: calc(var(--video-thumb-width) + 16px);
-    padding: 8px;
+    width: var(--video-thumb-width);
     transition: all 0.15s ease-in;
+}
+
+.library .items a {
+    padding: 8px;
 }
 
 .library .items a:hover {
@@ -322,6 +341,7 @@ form.auth label span {
     box-shadow: 0px 0px 5px 0px rgba(176, 176, 176, 1);
 }
 
+.video-list .title,
 .library .items .title {
     color: var(--text-primary);
     font-weight: normal;
@@ -336,13 +356,25 @@ form.auth label span {
     -webkit-box-orient: vertical;
 }
 
-.library .video-thumb {
+.video-list .title {
+    font-weight: 500;
+    margin: 0.5rem 0;
+    line-height: 1.6rem;
+}
+
+.video-list .video-thumb {
     display: block;
     position: relative;
     width: var(--video-thumb-width);
     height: calc(var(--video-thumb-width)/16*9);
 }
 
+.library .video-thumb {
+    width: calc(var(--video-thumb-width) - 16px);
+    height: calc((var(--video-thumb-width) - 16px)/16*9);
+}
+
+.video-list .video-thumb img,
 .library .video-thumb img {
     display: block;
     object-fit: cover;
@@ -350,6 +382,7 @@ form.auth label span {
     height: 100%;
 }
 
+.video-list .video-thumb .duration,
 .library .video-thumb .duration {
     position: absolute;
     bottom: 5px;

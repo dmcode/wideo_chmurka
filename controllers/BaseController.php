@@ -38,6 +38,11 @@ class BaseController
         return $this->get('auth')->getAuthenticatedUser();
     }
 
+    protected function db()
+    {
+        return $this->get('db');
+    }
+
     protected function library()
     {
         return $this->get('library');

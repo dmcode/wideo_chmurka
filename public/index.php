@@ -1,6 +1,6 @@
 <?php
 use Controllers\AuthController;
-use Controllers\IndexController;
+use Controllers\PublicController;
 use Controllers\LibraryController;
 use Controllers\StreamController;
 use DI\Container;
@@ -84,8 +84,8 @@ $container->set('library', function (ContainerInterface $container) {
 
 
 // Controllers
-$container->set('IndexController', function (ContainerInterface $container) {
-    return new IndexController($container);
+$container->set('PublicController', function (ContainerInterface $container) {
+    return new PublicController($container);
 });
 
 $container->set('AuthController', function (ContainerInterface $container) {
@@ -102,7 +102,7 @@ $container->set('StreamController', function (ContainerInterface $container) {
 
 
 // Routing
-$app->get('/', 'IndexController:index')->setName('index');
+$app->get('/', 'PublicController:index')->setName('index');
 
 $app->get('/login', 'AuthController:login')->setName('login');
 $app->post('/login', 'AuthController:loginSubmit')->setName('login_submit');
@@ -129,5 +129,8 @@ $app->get('/stream/{video_slug}', 'StreamController:video')
 
 $app->get('/thumb/{thumb_id}', 'StreamController:thumb')
     ->setName('stream_thumb');
+
+$app->get('/{video_slug}', 'PublicController:video')
+    ->setName('public_video');
 
 $app->run();

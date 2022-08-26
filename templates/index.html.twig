@@ -1,5 +1,48 @@
 {% extends "app.layout.html.twig" %}
 
 {% block content %}
-    {{ include("partial/video_recorder.html.twig") }}
+    <section class="video-recorder">
+        <div class="media-preview-wrapper">
+            <video id="mediaPreview" autoplay loop muted poster="/images/loss-signal-poster.webp">
+                <source src="/video/loss-signal.webm" type="video/webm">
+            </video>
+        </div>
+    </section>
+
+    {% include 'partial/videolist.html.twig' with {'title': 'Najnowsze', 'entities': recent} %}
+    {% include 'partial/videolist.html.twig' with {'title': 'Popularne', 'entities': popular} %}
+
+{% endblock %}
+
+{% block template %}
+    <template id="tmplSelectMedia">
+        <div class="select-media">
+            <a href="#select-media" class="button-37 btn-select-media">Wybierz żródło wideo</a>
+        </div>
+    </template>
+
+    <template id="tmplMediaControls">
+        <div class="media-controls">
+            <div class="recording-info"></div>
+            <div class="control-button">
+                <input id="btnRec" type="checkbox" />
+                <label for="btnRec"></label>
+            </div>
+            <div class="recording-time">
+                <time id="elapsed">00:00</time>
+            </div>
+        </div>
+    </template>
+
+    <template id="tmplRecordingInfo">
+        <i class="recdot"></i><span>NAGRYWANIE</span>
+    </template>
+
+    <template id="tmplRecordingInfoStop">
+        <span>ZATRZYMANO</span>
+    </template>
+{% endblock %}
+
+{% block bodyscripts %}
+    <script type="module" src="/js/recorder/app.js"></script>
 {% endblock %}

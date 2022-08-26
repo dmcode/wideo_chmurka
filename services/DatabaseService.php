@@ -94,10 +94,10 @@ class DatabaseService extends BaseService
             $where = array_map(fn($field): string => "$field = :$field", array_keys($conditions));
             $sql .= 'WHERE ' . implode(' AND', $where) . ' ';
         }
+        if (isset($order[0]))
+            $sql .= 'ORDER BY '. implode(',', $order) . ' ';
         if ($limit)
             $sql .= 'LIMIT '.$limit;
-        if (isset($order[0]))
-            $sql .= 'ORDER BY '. implode(',', $order);
         return $sql;
     }
 }

@@ -5,9 +5,9 @@
 {% block sitetitle %}{{ title }}{% endblock %}
 
 {% block content %}
-    <div class="library">
+    <div class="block library">
         <h1 class="page-title">{{ title }}</h1>
-        <ul class="items">
+        <ul class="video-list items">
             {% for item in entities %}
                 <li>
                     <a href="{{ url_for('library_video', {'video_slug': item.slug}) }}">

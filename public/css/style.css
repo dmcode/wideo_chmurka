@@ -57,7 +57,7 @@ main > .block {
     align-items: center;
     height: 100%;
     text-decoration: none;
-    color: var(--text-primary);
+    color: #1e3764;
 }
 
 .app-branding img {
@@ -350,9 +350,7 @@ form.auth label span {
 .video-list .title,
 .library .items .title {
     color: var(--text-primary);
-    font-weight: normal;
     margin: 1rem 0 0.5rem;
-    line-height: 2rem;
     text-overflow: ellipsis;
     width: 100%;
     max-height: 4rem;
@@ -373,6 +371,18 @@ form.auth label span {
     position: relative;
     width: var(--video-thumb-width);
     height: calc(var(--video-thumb-width)/16*9);
+}
+
+.video-list .views {
+    font-size: var(--size-d13);
+    font-weight: 500;
+    color: var(--video-views-color);
+    display: flex;
+    gap: 0.5rem;
+}
+
+.library .items .views {
+    margin-bottom: 1rem;
 }
 
 .video-list .empty-list {
@@ -426,10 +436,12 @@ form.auth label span {
 }
 
 .library .visibility.protected {
+    color: white;
     background: #bf6311;
 }
 
 .library .visibility.public {
+    color: white;
     background: #5e9b11;
 }
 
@@ -474,7 +486,7 @@ form.auth label span {
 }
 
 .player-box .views {
-    color: #515a5a;
+    color: var(--video-views-color);
     display: flex;
     gap: 1rem;
 }

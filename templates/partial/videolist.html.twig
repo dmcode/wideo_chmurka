@@ -10,6 +10,11 @@
                         <time class="duration">{{ duration(item.duration) }}</time>
                     </div>
                     <h3 class="title">{{ item.title }}</h3>
+                    <div class="views">
+                        <span>{{ item.number_views }} wyświetleń</span>
+                        <span>&diams;</span>
+                        <time>{{ item.published_at|date('d.m.Y') }}</time>
+                    </div>
                 </a>
             </li>
         {% endfor %}

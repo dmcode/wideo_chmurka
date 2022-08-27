@@ -15,7 +15,14 @@
                             <img src="{{ url_for('stream_thumb', {'thumb_id': item.thumb}) }}" alt=""/>
                             <time class="duration">{{ duration(item.duration) }}</time>
                         </div>
-                        <h2 class="title">{{ item.title }}</h2>
+                        <h3 class="title">{{ item.title }}</h3>
+                        <div class="views">
+                            <span>{{ item.number_views }} wyświetleń</span>
+                            {% if item.published_at %}
+                            <span>&diams;</span>
+                            <time>{{ item.published_at|date('d.m.Y') }}</time>
+                            {% endif %}
+                        </div>
                         <div class="attrs">
                             <div class="visibility {{ item.visibility }}">
                                 {{ visibility(item.visibility) }}

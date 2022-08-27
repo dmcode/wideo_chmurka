@@ -12,6 +12,7 @@
     --video-width: 1280px;
     --video-thumb-width: 400px;
     --video-editor-player-width: 640px;
+    --video-views-color: #515a5a;
 }
 
 * {

@@ -6,12 +6,26 @@
 
 {% block content %}
     <div class="block library">
+        <a href="{{ url_for("library") }}" class="btn-back"><i class="fa-solid fa-circle-chevron-left"></i> Wszystkie filmy</a>
+
         <h1 class="page-title">{{ title }}</h1>
+
         <div class="video-editor">
             <div class="player">
                 <video autoplay controls>
                     <source src="{{ url_for('stream_video', {'video_slug' : video.slug}) }}" type="video/webm">
                 </video>
+                <div class="video-info">
+                    <div class="views">
+                        <span>{{ video.number_views }} wyświetleń</span>
+                    </div>
+                    <div class="attrs">
+                        <div class="res_codec">
+                            <span>rozdzielczość: {{ video.res_w }}x{{ video.res_h }}</span>
+                            <span class="codec">kodek: {{ video.codec_name }}</span>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="video-form">
                 <form id="videoForm" method="post" data-vid="{{ video.slug }}" data-apivd="{{ url_for('video_data') }}">

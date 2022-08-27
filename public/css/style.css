@@ -312,6 +312,30 @@ form.auth label span {
 }
 
 
+.btn-back {
+    background-color: rgba(51, 51, 51, 0.05);
+    border-radius: 8px;
+    border-width: 0;
+    color: #38464c;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1rem;
+    margin: 0;
+    padding: 0.5rem 1rem;
+    text-align: center;
+    transition: all 200ms;
+    vertical-align: baseline;
+    white-space: nowrap;
+    touch-action: manipulation;
+    text-decoration: none;
+}
+
+.btn-back:hover {
+    box-shadow: 0 0 5px 0 rgba(176, 176, 176, 1);
+}
+
 .block .title,
 .page-title {
     color: #29415e;
@@ -344,7 +368,7 @@ form.auth label span {
 
 .library .items a:hover {
     background: #f6fafb;
-    box-shadow: 0px 0px 5px 0px rgba(176, 176, 176, 1);
+    box-shadow: 0 0 5px 0 rgba(176, 176, 176, 1);
 }
 
 .video-list .title,
@@ -470,10 +494,26 @@ form.auth label span {
     height: calc(var(--video-editor-player-width)/16*9);
 }
 
+.video-editor .video-info {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: space-between;
+    align-items: center;
+}
 
+.video-editor .video-info .res_codec {
+    display: flex;
+    flex-direction: column;
+}
+
+.video-editor .video-info,
 .video-form {
     background: #e4e7eb;
     padding: 2rem;
+}
+
+.video-editor .video-info {
+    padding: 1rem;
 }
 
 .video-form form {
@@ -612,13 +652,11 @@ form.auth label span {
 }
 
 .video-editor .btn-save:hover {
-    background-color: #0A46E4;
-    border-color: #0A46E4;
+    box-shadow: 0 0 5px 0 rgba(176, 176, 176, 1);
 }
 
 .video-editor .btn-save:active {
-    background-color: #0039D7;
-    border-color: #0039D7;
+    box-shadow: 0 0 10px 0 rgba(176, 176, 176, 1);
 }
 
 

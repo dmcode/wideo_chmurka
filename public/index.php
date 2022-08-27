@@ -112,10 +112,6 @@ $app->get('/logout', 'AuthController:logout')->setName('logout');
 $app->get('/singup', 'AuthController:singup')->setName('singup');
 $app->post('/singup', 'AuthController:singupSubmit')->setName('singup_submit');
 
-$app->post('/api/upload_blob', 'LibraryController:uploadBlobVideo')
-    ->add((function() use ($container) { return new LoginRequired($container); })())
-    ->setName('upload_blob');
-
 $app->get('/library', 'LibraryController:index')
     ->add((function() use ($container) { return new LoginRequired($container); })())
     ->setName('library');
@@ -130,10 +126,19 @@ $app->get('/stream/{video_slug}', 'StreamController:video')
 $app->post('/api/view/{video_slug}', 'LibraryController:registerVideoView')
     ->setName('register_view');
 
+$app->post('/api/upload_blob', 'LibraryController:uploadBlobVideo')
+    ->add((function() use ($container) { return new LoginRequired($container); })())
+    ->setName('upload_blob');
+
+$app->post('/api/video_data', 'LibraryController:updateVideoData')
+    ->add((function() use ($container) { return new LoginRequired($container); })())
+    ->setName('video_data');
+
 $app->get('/thumb/{thumb_id}', 'StreamController:thumb')
     ->setName('stream_thumb');
 
 $app->get('/{video_slug}', 'PublicController:video')
     ->setName('public_video');
 
+$app->addBodyParsingMiddleware();
 $app->run();

@@ -44,6 +44,19 @@ class LibraryController extends BaseController
         }
     }
 
+    public function updateVideoData(Request $request, Response $response, $args): Response
+    {
+        try {
+            $data = $request->getParsedBody();
+            $video = $this->getVideo($data['vid'], true);
+            $this->library()->updateData($video, $data);
+            return $response;
+        }
+        catch (\InvalidArgumentException) {
+            throw new HttpNotFoundException($request);
+        }
+    }
+
     public function uploadBlobVideo(Request $request, Response $response, $args): Response
     {
         $files = $request->getUploadedFiles();

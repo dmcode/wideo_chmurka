@@ -432,7 +432,7 @@ form.auth label span {
 
 .library .visibility.private {
     color: white;
-    background: #486281;
+    background: #858585;
 }
 
 .library .visibility.protected {
@@ -454,8 +454,11 @@ form.auth label span {
     text-transform: uppercase;
 }
 
+
+/* Video editor */
 .video-editor {
     display: flex;
+    gap: 2rem;
 }
 
 .video-editor .player {
@@ -466,6 +469,158 @@ form.auth label span {
     width: var(--video-editor-player-width);
     height: calc(var(--video-editor-player-width)/16*9);
 }
+
+
+.video-form {
+    background: #e4e7eb;
+    padding: 2rem;
+}
+
+.video-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.video-form .row {
+    display: flex;
+    flex-direction: column;
+}
+
+.video-form .row label {
+    font-weight: 500;
+    font-size: var(--size-d14);
+}
+
+.video-form .row .tip {
+    color: #686868;
+    margin: 0;
+    font-size: var(--size-d13);
+    font-weight: 500;
+}
+
+.video-form input[type=text] {
+    min-width: 500px;
+}
+
+.video-form textarea,
+.video-form input[type=text] {
+    border: 2px solid #83888f;
+    font-family: sans-serif;
+    font-size: var(--size-d14);
+    line-height: 1.2rem;
+    padding: 0.4rem;
+}
+
+/* Published switch */
+.video-editor .published {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.video-editor .published input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.video-editor .published .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+}
+
+.video-editor .published .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+}
+
+.video-editor .published input:checked + .slider {
+    background-color: #2196F3;
+}
+
+.video-editor .published input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+.video-editor .published input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.video-editor .actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.video-editor .results {
+    font-style: italic;
+    font-size: var(--size-d14);
+    font-weight: 500;
+    margin: 0;
+}
+
+.video-editor .results.success {
+    color: #2c7207;
+}
+
+.video-editor .results.error {
+    color: red;
+}
+
+.video-editor .btn-save {
+    background-color: #1652F0;
+    border: 1px solid #1652F0;
+    border-radius: 4px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1.15;
+    overflow: visible;
+    padding: 12px 16px;
+    position: relative;
+    text-align: center;
+    text-transform: none;
+    transition: all 80ms ease-in-out;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: fit-content;
+}
+
+.video-editor .btn-save:disabled {
+    opacity: .5;
+}
+
+.video-editor .btn-save:focus {
+    outline: 0;
+}
+
+.video-editor .btn-save:hover {
+    background-color: #0A46E4;
+    border-color: #0A46E4;
+}
+
+.video-editor .btn-save:active {
+    background-color: #0039D7;
+    border-color: #0039D7;
+}
+
 
 
 /* Page video */

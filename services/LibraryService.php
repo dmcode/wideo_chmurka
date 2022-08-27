@@ -31,6 +31,17 @@ class LibraryService extends BaseService
         return $this->storage()->save($file);
     }
 
+    public function updateData($video, $data)
+    {
+        $visibility = $data['visibility'] ? 'public' : 'private';
+        return $this->db()->update(
+            'library',
+            ['title' => $data['title'], 'description' => $data['description'], 'visibility' => $visibility],
+            ['id' => $video->id],
+            1
+        );
+    }
+
     public function registerView($video, $number=1)
     {
         return $this->db()->call('register_view', ['video_slug' => $video->slug, 'number' => $number]);

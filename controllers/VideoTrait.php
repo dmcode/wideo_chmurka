@@ -11,14 +11,20 @@ trait VideoTrait
         return $this->getVideo($args['video_slug']);
     }
 
-    public function getVideo($slug)
+    public function getVideo($slug, $onlyOwner=false)
     {
         $entity = $this->library()->getEntity($slug);
         if (!$entity)
             throw new \InvalidArgumentException("Niepoprawny identyfikator wideo.");
         $user = $this->getAuthenticatedUser();
-        if ($entity->visibility == 'private' && (!$user || $entity->user_id != $user->id))
+        if (($onlyOwner && $this->notOwner($user, $entity))
+            || ($entity->visibility == 'private' && $this->notOwner($user, $entity)))
             throw new \InvalidArgumentException("Nie posiadasz uprawnień do tego obiektu.");
         return $entity;
+    }
+
+    private function notOwner($user, $entity)
+    {
+        return !$user || $entity->user_id != $user->id;
     }
 }

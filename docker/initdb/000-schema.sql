@@ -23,7 +23,6 @@ create table video
     id int unsigned auto_increment primary key,
     slug varchar(128) not null,
     created_at datetime not null default CURRENT_TIMESTAMP,
-    updated_at datetime default null,
     duration integer not null default 0,
     res_w smallint not null default 0,
     res_h smallint not null default 0,

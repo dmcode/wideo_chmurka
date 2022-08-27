@@ -46,6 +46,7 @@ create table library
     user_id int unsigned not null,
     video_id int unsigned not null,
     visibility ENUM('private', 'protected', 'public') default 'private',
+    number_views int unsigned not null default 0,
     thumb varchar(128) default null,
     title varchar(100) default null,
     description varchar(1000) default null

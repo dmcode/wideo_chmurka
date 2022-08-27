@@ -3,6 +3,7 @@ namespace Controllers;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Slim\Exception\HttpNotFoundException;
 
 
 class LibraryController extends BaseController
@@ -17,8 +18,30 @@ class LibraryController extends BaseController
 
     public function video(Request $request, Response $response, $args): Response
     {
-        $video = $this->getVideo($args['video_slug']);
-        return $this->render($response, 'library/video.html.twig', ['video' => $video]);
+        try {
+            return $this->render($response, 'library/video.html.twig', [
+                'video' => $this->getVideoByArgs($args)
+            ]);
+        }
+        catch (\InvalidArgumentException) {
+            throw new HttpNotFoundException($request);
+        }
+    }
+
+    public function registerVideoView(Request $request, Response $response, $args): Response
+    {
+        try {
+            $video = $this->getVideoByArgs($args);
+            $key = "viewed_$video->slug";
+            if (!$this->session()->exists($video->slug) || $this->session()->exists($key))
+                throw new \InvalidArgumentException("Upss! Nie da się.");
+            $this->library()->registerView($video);
+            $this->session()->set($key, true);
+            return $response;
+        }
+        catch (\InvalidArgumentException) {
+            throw new HttpNotFoundException($request);
+        }
     }
 
     public function uploadBlobVideo(Request $request, Response $response, $args): Response

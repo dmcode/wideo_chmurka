@@ -52,4 +52,9 @@ class BaseController
     {
         return $this->get('storage');
     }
+
+    protected function session()
+    {
+        return $this->get('session');
+    }
 }

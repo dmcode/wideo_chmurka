@@ -442,3 +442,34 @@ form.auth label span {
     width: var(--video-editor-player-width);
     height: calc(var(--video-editor-player-width)/16*9);
 }
+
+
+/* Page video */
+
+.page-video .player,
+.page-video .player video {
+    width: 100%;
+    height: auto;
+}
+
+@media screen and (min-width: 1260px) {
+    .page-video .player {
+        width: calc(var(--video-width) - 200px);
+    }
+
+    .page-video .player video {
+        width: calc(var(--video-width) - 200px);
+        height: calc((var(--video-width) - 200px) /16*9);
+    }
+}
+
+@media screen and (min-width: 1600px) {
+    .page-video .player {
+        width: var(--video-width);
+    }
+
+    .page-video .player video {
+        width: var(--video-width);
+        height: calc(var(--video-width)/16*9);
+    }
+}

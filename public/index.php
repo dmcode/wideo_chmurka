@@ -127,6 +127,9 @@ $app->get('/library/{video_slug}', 'LibraryController:video')
 $app->get('/stream/{video_slug}', 'StreamController:video')
     ->setName('stream_video');
 
+$app->post('/api/view/{video_slug}', 'LibraryController:registerVideoView')
+    ->setName('register_view');
+
 $app->get('/thumb/{thumb_id}', 'StreamController:thumb')
     ->setName('stream_thumb');
 

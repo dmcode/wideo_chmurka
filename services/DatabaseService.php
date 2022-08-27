@@ -88,6 +88,18 @@ class DatabaseService extends BaseService
         $stmt->execute(array_merge($values, $conditions));
     }
 
+    public function call($name, $data=[])
+    {
+        if (func_num_args() != 2)
+            return false;
+        $fields = array_keys($data);
+        $values = array_map(fn($field): string => ":$field", $fields);
+        $sql = 'CALL ' . $name . '('.implode(', ', $values).')';
+        $stmt = $this->connect()->prepare($sql);
+        $stmt->execute($data);
+        return $stmt;
+    }
+
     protected function buildConditions(string $sql, array $conditions = [], $limit=null, array $order=[])
     {
         if (count($conditions) > 0) {

@@ -31,6 +31,11 @@ class LibraryService extends BaseService
         return $this->storage()->save($file);
     }
 
+    public function registerView($video, $number=1)
+    {
+        return $this->db()->call('register_view', ['video_slug' => $video->slug, 'number' => $number]);
+    }
+
     public function findEntities($user)
     {
         return $this->db()->find('library l left join video v on (l.video_id=v.id)', ['user_id' => $user->id], ['*'], ['created_at DESC']);

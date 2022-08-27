@@ -13,6 +13,9 @@
                 </a>
             </li>
         {% endfor %}
+        {% if entities is empty %}
+        <li><p class="empty-list">Tu jeszcze nic nie ma. Dodaj swoje wideo!</p></li>
+        {% endif %}
     </ul>
 </section>
 {% endblock %}

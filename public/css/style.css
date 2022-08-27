@@ -35,7 +35,13 @@ main {
 }
 
 main > .block {
-    padding: 2rem 6rem;
+    padding: 2rem;
+}
+
+@media screen and (min-width: 1200px) {
+    main > .block {
+        padding: 2rem 6rem;
+    }
 }
 
 .app-branding {
@@ -369,6 +375,12 @@ form.auth label span {
     height: calc(var(--video-thumb-width)/16*9);
 }
 
+.video-list .empty-list {
+    color: #001937;
+    font-size: var(--size-d18);
+    font-style: italic;
+}
+
 .library .video-thumb {
     width: calc(var(--video-thumb-width) - 16px);
     height: calc((var(--video-thumb-width) - 16px)/16*9);
@@ -446,6 +458,27 @@ form.auth label span {
 
 /* Page video */
 
+.player-box {
+    width: 100%;
+    height: auto;
+}
+
+.player-box .title {
+    font-weight: 500;
+    margin: 1rem 0;
+    line-height: 1.6rem;
+}
+
+.player-box .description {
+    color: #3d546e;
+}
+
+.player-box .views {
+    color: #515a5a;
+    display: flex;
+    gap: 1rem;
+}
+
 .page-video .player,
 .page-video .player video {
     width: 100%;
@@ -453,6 +486,7 @@ form.auth label span {
 }
 
 @media screen and (min-width: 1260px) {
+    .player-box,
     .page-video .player {
         width: calc(var(--video-width) - 200px);
     }
@@ -464,6 +498,7 @@ form.auth label span {
 }
 
 @media screen and (min-width: 1600px) {
+    .player-box,
     .page-video .player {
         width: var(--video-width);
     }

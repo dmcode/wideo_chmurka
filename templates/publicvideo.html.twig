@@ -10,7 +10,17 @@
                     <source src="{{ url_for('stream_video', {'video_slug' : video.slug}) }}" type="video/webm">
                 </video>
             </div>
-            <h2 class="title">{{ video.title }}</h2>
+            <div class="video-info">
+                <h2 class="title">{{ video.title }}</h2>
+                <div class="views">
+                    <span>{{ video.number_views }} wyświetleń</span>
+                    <span>&diams;</span>
+                    <span>opublikowano <time>{{ video.published_at|date('d.m.Y') }}</time></span>
+                </div>
+                {% if video.description %}
+                <p class="description">{{ video.description }}</p>
+                {% endif %}
+            </div>
         </div>
     </div>
 {% endblock %}

@@ -48,12 +48,22 @@ class LibraryService extends BaseService
 
     public function findMostRecent($limit=12)
     {
-        return $this->db()->find('library l left join video v on (l.video_id=v.id)', [], ['*'], ['created_at DESC'], $limit);
+        return $this->db()->find(
+            'library l left join video v on (l.video_id=v.id)',
+            ['visibility' => 'public'], ['*'],
+            ['created_at DESC'],
+            $limit
+        );
     }
 
     public function findPopular($limit=12)
     {
-        return $this->db()->find('library l left join video v on (l.video_id=v.id)', [], ['*'], ['created_at DESC'], $limit);
+        return $this->db()->find(
+            'library l left join video v on (l.video_id=v.id)',
+            ['visibility' => 'public'], ['*'],
+            ['number_views DESC', 'created_at DESC'],
+            $limit
+        );
     }
 
     protected function video()

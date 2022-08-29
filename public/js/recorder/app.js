@@ -3,7 +3,7 @@ import {cloneTemplate} from "../tools.js";
 
 
 const tagMediaPreview = document.querySelector('.media-preview-wrapper');
-const tagVideoRecorderActions = document.querySelector('.video-recorder-actions');
+const tagVideoWelcome = document.querySelector('.video-welcome');
 
 
 const handleVideoBoxEvents = ({videoBox, elMediaControls}) => {
@@ -68,8 +68,13 @@ const renderSelectMedia = ({videoBox}) => {
 
 
 const renderRecorderActions = ({videoBox}) => {
-  if (!tagVideoRecorderActions)
-    return false;
+  const tagNewVideo = tagVideoWelcome.querySelector('.new-video');
+  if (tagNewVideo)
+    tagVideoWelcome.removeChild(tagNewVideo);
+  const elNewVideo = cloneTemplate('tmplNewVideo');
+  if (!elNewVideo)
+    return;
+  const elVideoRecorderActions = elNewVideo.querySelector('.video-recorder-actions');
   const btnSave = document.createElement('button');
   btnSave.className = 'btn-action btn-download';
   btnSave.innerText = "Pobierz";
@@ -80,10 +85,28 @@ const renderRecorderActions = ({videoBox}) => {
   btnUpload.className = 'btn-action btn-upload';
   btnUpload.innerText = "Zapisz w bibliotece";
   btnUpload.addEventListener('click', () => {
-    videoBox.upload(tagMediaPreview.dataset.apiupload);
+    videoBox.upload(tagMediaPreview.dataset.apiupload)
+      .then(_ => {
+        renderNewVideoAction()
+      }).catch(_ => alert("Wystąpił błąd! Nie można zapisać wideo w bibliotece."));
   });
-  tagVideoRecorderActions.replaceChildren(btnUpload);
-  tagVideoRecorderActions.appendChild(btnSave);
+  elVideoRecorderActions.append(btnUpload);
+  elVideoRecorderActions.append(btnSave);
+  tagVideoWelcome.append(elNewVideo);
+}
+
+
+const renderNewVideoAction = () => {
+  const tagNewVideo = tagVideoWelcome.querySelector('.new-video');
+  if (tagNewVideo) {
+    tagVideoWelcome.removeChild(tagNewVideo)
+  }
+  const elNewVideo = cloneTemplate('tmplNewVideo');
+  if (!elNewVideo)
+    return false;
+  const elMessage = elNewVideo.querySelector('.message');
+  elMessage.innerText = 'Wideo zostało zapisane w Twojej bibliotece!';
+  tagVideoWelcome.append(elNewVideo);
 }
 
 

@@ -398,12 +398,18 @@ nav.account .btn-logout {
     100% { opacity: 0; }
 }
 
+.video-recorder .new-video {
+    background: #00547c;
+    border-radius: 8px;
+    padding: 1rem 2rem;
+    margin-top: 3rem;
+}
+
 .video-recorder-actions {
     display: flex;
     flex-direction: row;
+    justify-content: center;
     gap: 2rem;
-    position: absolute;
-    bottom: 0;
 }
 
 .btn-action {
@@ -435,7 +441,7 @@ nav.account .btn-logout {
 }
 
 .btn-download {
-    background-image: linear-gradient(to bottom right, #fcd34d, #ef4444, #ec4899);
+    background-image: linear-gradient(to bottom right, #fcd34d, #950a0a, #ec4899);
 }
 
 .btn-back {

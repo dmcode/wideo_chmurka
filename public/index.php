@@ -7,11 +7,14 @@ use DI\Container;
 use Middleware\AuthMiddleware;
 use Middleware\LoginRequired;
 use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Log\LoggerInterface;
 use Services\AuthService;
 use Services\DatabaseService;
 use Services\LibraryService;
 use Services\StorageService;
 use Services\VideoService;
+use Slim\Exception\HttpNotFoundException;
 use Slim\Factory\AppFactory;
 use Slim\Middleware\Session;
 use Slim\Views\Twig;
@@ -28,6 +31,24 @@ $dotenv->load();
 
 $container = new Container();
 $app = AppFactory::createFromContainer($container);
+
+$app->addRoutingMiddleware();
+$errorMiddleware = $app->addErrorMiddleware(true, true, true);
+$errorMiddleware->setDefaultErrorHandler(function (
+    ServerRequestInterface $request,
+    Throwable $exception,
+    bool $displayErrorDetails,
+    bool $logErrors,
+    bool $logErrorDetails,
+    ?LoggerInterface $logger = null
+) use ($app) {
+    $response = $app->getResponseFactory()->createResponse();
+    $response = $response->withStatus(500);
+    if ($exception instanceof HttpNotFoundException)
+        $response = $response->withStatus($exception->getCode());
+    $response->getBody()->write($exception->getMessage());
+    return $response;
+});
 
 $app->add((function () use ($container) {
     return new AuthMiddleware($container);

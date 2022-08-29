@@ -154,31 +154,32 @@ class VideoBox {
     }
 
     save() {
-        const blob = new Blob(this._chunks, {
-            type: this._chunks[0].type
-        });
+        if (!this._recorder)
+            return;
         const downloadLink = document.createElement('a');
-        downloadLink.href = URL.createObjectURL(blob);
+        downloadLink.href = URL.createObjectURL(this._recorder.recordedBlob);
         downloadLink.download = `video.webm`;
         document.body.appendChild(downloadLink);
         downloadLink.click();
-        URL.revokeObjectURL(blob); // clear from memory
         document.body.removeChild(downloadLink);
     }
 
     upload(url) {
         if (!this._recorder)
             return;
-        const xhr = new XMLHttpRequest();
-        const fd = new FormData();
-        xhr.open("POST", url, true);
-        xhr.onreadystatechange = () => {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                alert(xhr.responseText); // handle response.
-            }
-        };
-        fd.append('myFile', this._recorder.recordedBlob);
-        xhr.send(fd);
+        return new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            const fd = new FormData();
+            xhr.open("POST", url, true);
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === 4 && xhr.status === 200)
+                    resolve();
+                if (xhr.readyState === 4 && xhr.status !== 200)
+                    reject();
+            };
+            fd.append('myFile', this._recorder.recordedBlob);
+            xhr.send(fd);
+        })
     }
 }
 

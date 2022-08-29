@@ -14,11 +14,6 @@
             {% if not authenticated() %}
             <p class="message"><a href="{{ url_for('singup') }}">Załóż darmowe konto</a> aby zachować swoje nagranie.</p>
             {% endif %}
-
-            <div class="video-post-actions">
-                <div>Nagrano nowe wideo!</div>
-                <div class="video-recorder-actions"></div>
-            </div>
         </div>
     </section>
 
@@ -54,6 +49,14 @@
     <template id="tmplRecordingInfoStop">
         <span>ZATRZYMANO</span>
     </template>
+
+    <template id="tmplNewVideo">
+        <div class="new-video">
+            <p class="message">Nagrano nowe wideo!</p>
+            <div class="video-recorder-actions"></div>
+        </div>
+    </template>
+
 {% endblock %}
 
 {% block bodyscripts %}

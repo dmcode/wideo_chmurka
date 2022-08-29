@@ -17,11 +17,14 @@ const handleVideoBoxEvents = ({videoBox, elMediaControls}) => {
     const tmplRecordingInfo = cloneTemplate('tmplRecordingInfo');
     if (tmplRecordingInfo && tagMediaPreview)
       tagMediaPreview.querySelector('.recording-info').replaceChildren(tmplRecordingInfo);
+    removeTagNewVideo();
   });
   videoBox.onStop(_ => {
     const tmplRecordingInfoStop = cloneTemplate('tmplRecordingInfoStop');
     if (tmplRecordingInfoStop && tagMediaPreview)
       tagMediaPreview.querySelector('.recording-info').replaceChildren(tmplRecordingInfoStop);
+    if (videoBox.isVideoRecorded)
+      renderRecorderActions({videoBox});
   });
 }
 
@@ -34,7 +37,6 @@ const renderMediaControls = ({videoBox}) => {
   handleVideoBoxEvents({videoBox, elMediaControls});
   videoBox.onStop(_ => {
     btnRec.checked = false;
-    renderRecorderActions({videoBox});
   });
   btnRec.addEventListener('change', e => {
     if (e.target.checked)
@@ -68,9 +70,7 @@ const renderSelectMedia = ({videoBox}) => {
 
 
 const renderRecorderActions = ({videoBox}) => {
-  const tagNewVideo = tagVideoWelcome.querySelector('.new-video');
-  if (tagNewVideo)
-    tagVideoWelcome.removeChild(tagNewVideo);
+  removeTagNewVideo();
   const elNewVideo = cloneTemplate('tmplNewVideo');
   if (!elNewVideo)
     return;
@@ -97,16 +97,19 @@ const renderRecorderActions = ({videoBox}) => {
 
 
 const renderNewVideoAction = () => {
-  const tagNewVideo = tagVideoWelcome.querySelector('.new-video');
-  if (tagNewVideo) {
-    tagVideoWelcome.removeChild(tagNewVideo)
-  }
+  removeTagNewVideo();
   const elNewVideo = cloneTemplate('tmplNewVideo');
   if (!elNewVideo)
     return false;
   const elMessage = elNewVideo.querySelector('.message');
   elMessage.innerText = 'Wideo zostało zapisane w Twojej bibliotece!';
   tagVideoWelcome.append(elNewVideo);
+}
+
+const removeTagNewVideo = () => {
+  const tagNewVideo = tagVideoWelcome.querySelector('.new-video');
+  if (tagNewVideo)
+    tagVideoWelcome.removeChild(tagNewVideo);
 }
 
 

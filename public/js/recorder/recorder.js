@@ -107,6 +107,14 @@ class VideoBox {
         return this._media !== null;
     }
 
+    get isMediaActive() {
+        return this.hasMedia && this._media.active === true;
+    }
+
+    get isVideoRecorded() {
+        return this._recorder && this._recorder._chunks.length > 0;
+    }
+
     startPreview() {
         if (this._videoTag && this._media)
             this._videoTag.srcObject = this._media;
@@ -143,8 +151,12 @@ class VideoBox {
     }
 
     startRecording() {
-        if (!this._recorder)
-            this.initVideoRecorder();
+        if (!this.isMediaActive) {
+            alert("Nie można wykryć urządzenia wideo. Czy udostępniono ekran lub okno aplikacji?");
+            this._onStopHandlers.forEach(callback => callback());
+            return false;
+        }
+        this.initVideoRecorder();
         this._recorder.start();
     }
 

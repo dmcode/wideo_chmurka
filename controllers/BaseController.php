@@ -33,6 +33,23 @@ class BaseController
             ->withStatus(302);
     }
 
+    protected function setFlash($key, $message): bool
+    {
+        if (!is_string($message))
+            return false;
+        $this->session()->set($key, $message);
+        return true;
+    }
+
+    protected function getFlash($key): ?string
+    {
+        if (!$this->session()->exists($key))
+            return null;
+        $message = $this->session()->get($key);
+        $this->session()->delete($key);
+        return $message;
+    }
+
     public function getAuthenticatedUser()
     {
         return $this->get('auth')->getAuthenticatedUser();

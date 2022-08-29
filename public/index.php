@@ -7,8 +7,6 @@ use DI\Container;
 use Middleware\AuthMiddleware;
 use Middleware\LoginRequired;
 use Psr\Container\ContainerInterface;
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
 use Services\AuthService;
 use Services\DatabaseService;
 use Services\LibraryService;

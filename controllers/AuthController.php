@@ -8,12 +8,17 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 class AuthController extends BaseController
 {
+    private static $LOGIN_ERROR = 'login_error';
+    private static $SINGUP_ERROR = 'singup_error';
+
     public function login(Request $request, Response $response, $args): Response
     {
         $params = $request->getQueryParams();
         if (isset($params['next']) && strlen($params['next'])>0)
             $this->get('session')->set('next', $params['next']);
-        return $this->render($response, 'login.html.twig');
+        return $this->render($response, 'login.html.twig', [
+            'error' => $this->getFlash(self::$LOGIN_ERROR)
+        ]);
     }
 
     public function loginSubmit(Request $request, Response $response, $args): Response
@@ -26,7 +31,7 @@ class AuthController extends BaseController
             return $this->redirect($response, $next);
         }
         catch (\InvalidArgumentException) {
-
+            $this->setFlash(self::$LOGIN_ERROR, 'Nieprawidłowy login lub hasło.');
         }
         return $this->redirect($response, 'login');
     }
@@ -39,15 +44,22 @@ class AuthController extends BaseController
 
     public function singup(Request $request, Response $response, $args): Response
     {
-        return $this->render($response, 'singup.html.twig');
+        return $this->render($response, 'singup.html.twig', [
+            'error' => $this->getFlash(self::$SINGUP_ERROR)
+        ]);
     }
 
     public function singupSubmit(Request $request, Response $response, $args): Response
     {
-        $data = $request->getParsedBody();
-        $user = $this->get('auth')->create($data);
-        if ($user)
-            return $this->redirect($response, 'login');
+        try {
+            $data = $request->getParsedBody();
+            $user = $this->get('auth')->create($data);
+            if ($user)
+                return $this->redirect($response, 'login');
+        }
+        catch (\InvalidArgumentException $e) {
+            $this->setFlash(self::$SINGUP_ERROR, $e->getMessage());
+        }
         return $this->redirect($response, 'singup');
     }
 }

@@ -61,14 +61,23 @@ class AuthService extends BaseService
         return $this->authenticatedUser;
     }
 
-    public function create($data)
+    public function create(array $data)
     {
-        if ($this->getUser($data['email']))
-            throw new \InvalidArgumentException("Istnieje konto powiązane z podanym adresem email");
+        $this->validateData($data);
         return $this->createUser([
             'email' => $data['email'],
             'password' => $this->passwordHash($data['password'])
         ]);
+    }
+
+    protected function validateData(array $data)
+    {
+        if (strlen($data['email']) > 128)
+            throw new \InvalidArgumentException("Adres e-mail może mieć maks. 128 znaków.");
+        if ($data['password'] != $data['password_repeat'])
+            throw new \InvalidArgumentException("Podane hasła są różne.");
+        if ($this->getUser($data['email']))
+            throw new \InvalidArgumentException("Istnieje konto powiązane z podanym adresem email");
     }
 
     public function getUser($email)

@@ -2,10 +2,23 @@
 
 {% block content %}
     <section class="video-recorder">
-        <div class="media-preview-wrapper">
+        <div class="media-preview-wrapper"
+             data-apiupload="{{ url_for('upload_blob') }}"
+             {% if authenticated() %}data-auth="true"{% endif %}>
             <video id="mediaPreview" autoplay loop muted poster="/images/loss-signal-poster.webp">
                 <source src="/video/loss-signal.webm" type="video/webm">
             </video>
+        </div>
+        <div class="video-welcome">
+            <h1>Nagraj swój pulpit i poślij go w chmurkę!</h1>
+            {% if not authenticated() %}
+            <p class="message"><a href="{{ url_for('singup') }}">Załóż darmowe konto</a> aby zachować swoje nagranie.</p>
+            {% endif %}
+
+            <div class="video-post-actions">
+                <div>Nagrano nowe wideo!</div>
+                <div class="video-recorder-actions"></div>
+            </div>
         </div>
     </section>
 

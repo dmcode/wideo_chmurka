@@ -3,6 +3,7 @@ import {cloneTemplate} from "../tools.js";
 
 
 const tagMediaPreview = document.querySelector('.media-preview-wrapper');
+const tagVideoRecorderActions = document.querySelector('.video-recorder-actions');
 
 
 const handleVideoBoxEvents = ({videoBox, elMediaControls}) => {
@@ -33,7 +34,7 @@ const renderMediaControls = ({videoBox}) => {
   handleVideoBoxEvents({videoBox, elMediaControls});
   videoBox.onStop(_ => {
     btnRec.checked = false;
-    videoBox.upload('/api/upload_blob');
+    renderRecorderActions({videoBox});
   });
   btnRec.addEventListener('change', e => {
     if (e.target.checked)
@@ -63,6 +64,26 @@ const renderSelectMedia = ({videoBox}) => {
     }
   });
   tagMediaPreview.appendChild(elSelectMedia);
+}
+
+
+const renderRecorderActions = ({videoBox}) => {
+  if (!tagVideoRecorderActions)
+    return false;
+  const btnSave = document.createElement('button');
+  btnSave.className = 'btn-action btn-download';
+  btnSave.innerText = "Pobierz";
+  btnSave.addEventListener('click', () => {
+    videoBox.save();
+  });
+  const btnUpload = document.createElement('button');
+  btnUpload.className = 'btn-action btn-upload';
+  btnUpload.innerText = "Zapisz w bibliotece";
+  btnUpload.addEventListener('click', () => {
+    videoBox.upload(tagMediaPreview.dataset.apiupload);
+  });
+  tagVideoRecorderActions.replaceChildren(btnUpload);
+  tagVideoRecorderActions.appendChild(btnSave);
 }
 
 

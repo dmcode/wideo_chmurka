@@ -123,50 +123,137 @@ nav.account .btn-logout {
     overflow: hidden;
 }
 
-
-.form-auth-card {
+.page-singup .page-title,
+.page-login .page-title {
     color: white;
-    background: rgba(77, 113, 131, 0.9);
-    padding: 2rem 4rem 5rem;
-    border-radius: 30px;
+    font-weight: 500;
+    text-align: center;
+    margin: 2rem 0;
 }
 
 .page-login .app-branding,
 .page-singup .app-branding {
     height: 80px;
     font-size: 3rem;
-    margin-bottom: 4rem;
-    text-shadow: 0px 0px 10px rgba(255, 255, 255, 1);
+    text-shadow: 0px 0px 6px rgba(255, 255, 255, 1);
 }
 
-.form-auth-card .label {
-    font-size: 2rem;
-    font-weight: 500;
-    margin-bottom: 4rem;
+.form-auth-card a,
+.page-login .app-branding a {
+    color: white;
+}
+
+
+.form-auth-card {
+    color: white;
+    background: rgba(0, 52, 89, 1);
+    background: linear-gradient(to top, rgba(0, 52, 89, 1) 0%, rgba(0, 168, 232, 1) 92%);
+    box-shadow: 0 0 18px 0 rgba(0, 168, 232, 1);
+    padding: 2rem;
+    border-radius: 30px;
+}
+
+.form-auth-card .no-account {
     text-align: center;
 }
 
-form.auth {
+.form-auth-card form .row,
+.form-auth-card form {
     display: flex;
-    flex-direction: column;
+    flex-direction: column;}
+
+.form-auth-card form {
     gap: 1rem;
+    padding: 2rem;
 }
 
-form.auth label {
-    background: white;
-    border-radius: 15px;
+.form-auth-card label {
+    font-size: var(--size-d14);
+}
+
+.form-auth-card input[type=email],
+.form-auth-card input[type=password] {
+    color: white;
+    background: transparent;
+    border: 2px solid white;
+    border-radius: 6px;
+    font-family: sans-serif;
+    font-weight: 500;
+    font-size: var(--size-d14);
+    line-height: 1.2rem;
+    padding: 0.4rem;
+}
+
+.form-auth-card input[type=password]:focus,
+.form-auth-card input[type=email]:focus {
+    border-color: goldenrod;
+    outline-color: goldenrod;
+}
+
+.form-auth-card .error-message {
+    color: white;
+    background: #911448;
     padding: 1rem;
-    color: var(--text-primary);
+    text-align: center;
 }
 
-form.auth label span {
-    display: block;
-    width: 10rem;
+.form-auth-card .btn-submit {
+    align-items: center;
+    border: 0;
+    border-radius: 8px;
+    box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    display: flex;
+    font-size: 20px;
+    justify-content: center;
+    line-height: 1em;
+    max-width: 100%;
+    min-width: 140px;
+    padding: 19px 24px;
+    text-decoration: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    cursor: pointer;
+    background-image: linear-gradient(144deg, #00c4ff, #5B42F3 50%, #00b3bf);
 }
 
+.form-auth-card .btn-submit:hover {
+    box-shadow: rgba(255, 254, 252, 0.3) 0 15px 30px -5px;
+}
+
+
+
+.video-welcome {
+    color: white;
+    width: 840px;
+    position: relative;
+}
+
+.video-welcome h1 {
+    font-family: 'Pacifico', cursive;
+    font-size: 2.8rem;
+    font-weight: 500;
+    text-shadow: 0 0 1.8rem rgba(255, 254, 252, 1);
+    text-align: center;
+}
+
+.video-welcome .message {
+    color: white;
+    font-size: var(--size-d18);
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.video-welcome .message a {
+    color: #efe8dc;
+    font-weight: 500;
+}
 
 
 .video-recorder {
+    display: flex;
+    gap: 10rem;
     position: relative;
     padding: 4rem 6em;
     background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgba(0, 52, 89, 1) 0%, rgba(0, 168, 232, 1) 90%);
@@ -311,6 +398,45 @@ form.auth label span {
     100% { opacity: 0; }
 }
 
+.video-recorder-actions {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    position: absolute;
+    bottom: 0;
+}
+
+.btn-action {
+    align-items: center;
+    border: 0;
+    border-radius: 8px;
+    box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    display: flex;
+    font-size: 20px;
+    justify-content: center;
+    line-height: 1em;
+    max-width: 100%;
+    min-width: 140px;
+    padding: 19px 24px;
+    text-decoration: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.btn-action:hover {
+    box-shadow: rgba(255, 254, 252, 0.3) 0 15px 30px -5px;
+}
+
+.btn-upload {
+    background-image: linear-gradient(144deg,#AF40FF, #5B42F3 50%, #00b3bf);
+}
+
+.btn-download {
+    background-image: linear-gradient(to bottom right, #fcd34d, #ef4444, #ec4899);
+}
 
 .btn-back {
     background-color: rgba(51, 51, 51, 0.05);

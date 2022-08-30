@@ -1,14 +1,28 @@
+const CODECS = [
+    'video/webm;codecs=vp9',
+    'video/webm;codecs=vp8'
+];
+
+const getMimeTypeSupported = (mimeType=null) => {
+    if (mimeType && MediaRecorder.isTypeSupported(mimeType))
+        return mimeType;
+    for (const type of CODECS)
+        if (MediaRecorder.isTypeSupported(type))
+            return type;
+    return 'video/webm';
+}
+
 
 class VideoRecorder {
-    constructor({media, mimeType="video/webm"}) {
-        this._mimeType = mimeType;
+    constructor({media, mimeType=null}) {
+        this._mimeType = getMimeTypeSupported(mimeType);
         this._chunks = [];
         this._timeLimit = 15 * 60;  // max 15 min
         this._startTime = 0;
         this._timeInterval = null;
         this._timeIntervalHandlers = [];
 
-        this._recorder = new MediaRecorder(media, {mimeType});
+        this._recorder = new MediaRecorder(media, {mimeType: this._mimeType});
         this._recorder.addEventListener('dataavailable', e => {
             this._chunks.push(e.data);
         });

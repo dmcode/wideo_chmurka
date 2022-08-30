@@ -9,6 +9,15 @@ RUN apt-get install -y zip ffmpeg \
 
 RUN docker-php-ext-install pdo_mysql
 
-RUN mkdir -p /srv/app
+ENV APP_PATH=/usr/local/apache2/htdocs/
+WORKDIR $APP_PATH
 
-WORKDIR /srv/app
+COPY . $APP_PATH
+RUN php composer.phar install
+
+ENV STORAGE_PATH="$APP_PATH/storage"
+RUN chown www-data:www-data $STORAGE_PATH
+
+USER www-data
+
+VOLUME $STORAGE_PATH

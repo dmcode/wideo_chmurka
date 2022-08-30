@@ -6,9 +6,7 @@ services:
     volumes:
       - "main_dbdata:/var/lib/mysql"
       - "./docker/initdb:/docker-entrypoint-initdb.d"
-    ports:
-      - "8306:3306"
-    restart: on-failure
+    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_DATABASE: ${DB_DATABASE}
@@ -17,28 +15,39 @@ services:
 
   main_phpmyadmin:
     image: phpmyadmin
-    restart: on-failure
+    restart: unless-stopped
     ports:
-      - "8001:80"
+      - "8081:80"
     environment:
       - PMA_ARBITRARY=1
     depends_on:
       - main_db
 
-  main_app:
+  main_php:
     image: wideochmurka:php8.1-fpm-bullseye
-    command: php -S 0.0.0.0:8000 -t public
+    restart: unless-stopped
     build:
       context: .
       dockerfile: docker/Dockerfile
-    ports:
-      - "8000:8000"
     volumes:
-      - '.:/srv/app'
-      - './docker/php/php.ini-development:/usr/local/etc/php/php.ini'
-    user: 1000:1000
+      - '.env:/usr/local/apache2/htdocs/.env'
+      - './docker/php/php.ini-production:/usr/local/etc/php/php.ini'
     depends_on:
       - main_db
+
+  main_httpd:
+    image: wideochmurka:httpd2.4
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: docker/httpd/Dockerfile
+    ports:
+      - '8000:80'
+    volumes:
+      - './public/.htaccess:/usr/local/apache2/htdocs/public/.htaccess'
+      - './docker/httpd/httpd.conf:/usr/local/apache2/conf/httpd.conf'
+    depends_on:
+      - main_php
 
 volumes:
   main_dbdata:

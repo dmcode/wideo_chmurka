@@ -85,14 +85,28 @@ const renderRecorderActions = ({videoBox}) => {
   btnUpload.className = 'btn-action btn-upload';
   btnUpload.innerText = "Zapisz w bibliotece";
   btnUpload.addEventListener('click', () => {
+    renderUploadingBar();
     videoBox.upload(tagMediaPreview.dataset.apiupload)
       .then(_ => {
         renderNewVideoAction()
-      }).catch(_ => alert("Wystąpił błąd! Nie można zapisać wideo w bibliotece."));
+      })
+      .catch(_ => {
+        removeTagNewVideo();
+        alert("Wystąpił błąd! Nie można zapisać wideo w bibliotece.");
+      });
   });
   elVideoRecorderActions.append(btnUpload);
   elVideoRecorderActions.append(btnSave);
   tagVideoWelcome.append(elNewVideo);
+}
+
+
+const renderUploadingBar = () => {
+  removeTagNewVideo();
+  const elUploadingBar = cloneTemplate('tmplUploadingBar');
+  if (!elUploadingBar)
+    return false;
+  tagVideoWelcome.append(elUploadingBar);
 }
 
 

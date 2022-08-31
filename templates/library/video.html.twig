@@ -12,7 +12,8 @@
 
         <div class="video-editor">
             <div class="player">
-                <video autoplay controls>
+                <video controls
+                       {% if video.thumb %}poster="{{ url_for('stream_thumb', {'thumb_id' : video.thumb}) }}"{% endif %}>
                     <source src="{{ url_for('stream_video', {'video_slug' : video.slug}) }}" type="video/webm">
                 </video>
                 <div class="video-info">

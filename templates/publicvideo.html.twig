@@ -7,6 +7,7 @@
         <div class="player-box">
             <div class="player">
                 <video id="htmlplayer" controls
+                       {% if video.thumb %}poster="{{ url_for('stream_thumb', {'thumb_id' : video.thumb}) }}"{% endif %}
                        data-vid="{{ video.slug }}"
                        data-apirv="{{ url_for('register_view', {'video_slug' : video.slug}) }}">
                     <source src="{{ url_for('stream_video', {'video_slug' : video.slug}) }}" type="video/webm">

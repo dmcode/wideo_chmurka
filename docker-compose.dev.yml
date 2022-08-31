@@ -26,7 +26,7 @@ services:
       - dev_db
 
   dev_app:
-    image: wideochmurka:php8.1-fpm-bullseye
+    image: wideochmurka:dev-php8.1-fpm-bullseye
     command: php -S 0.0.0.0:8000 -t public
     build:
       context: .
@@ -34,7 +34,8 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - '.:/srv/app'
+      - '.:/usr/local/apache2/htdocs/'
+      - './storage:/usr/local/apache2/htdocs/storage'
       - './docker/php/php.ini-development:/usr/local/etc/php/php.ini'
     user: 1000:1000
     depends_on:

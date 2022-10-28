@@ -12,12 +12,13 @@ RUN docker-php-ext-install pdo_mysql
 ENV APP_PATH=/usr/local/apache2/htdocs/
 WORKDIR $APP_PATH
 
-COPY . $APP_PATH
-RUN php composer.phar install
-
-ENV STORAGE_PATH="$APP_PATH/storage"
-RUN chown www-data:www-data $STORAGE_PATH
-
-USER www-data
-
-VOLUME $STORAGE_PATH
+#COPY . $APP_PATH
+#RUN php composer.phar install
+#
+#ENV STORAGE_PATH="$APP_PATH/storage"
+#RUN chown www-data:www-data $STORAGE_PATH
+#
+#USER www-data
+#
+#VOLUME $STORAGE_PATH
+#

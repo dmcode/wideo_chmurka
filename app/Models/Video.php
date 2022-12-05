@@ -8,12 +8,12 @@ use Jenssegers\Mongodb\Eloquent\Model;
 
 class Video extends Model
 {
-    use HasFactory;
-    use HasUuids;
-    protected $collection = 'videos';
+//    use HasFactory;
+//    use HasUuids;
 
-    public function uniqueIds()
-    {
-        return ['vid'];
-    }
+//    public function uniqueIds()
+//    {
+//        return ['vid'];
+//    }
+    protected $collection = 'videos';
 }

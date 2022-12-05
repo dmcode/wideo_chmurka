@@ -2,11 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+//use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Jenssegers\Mongodb\Eloquent\Model;
 
 class Library extends Model
 {
-    use HasFactory;
+//    use HasFactory;
     protected $collection = 'libraries';
+
+    protected $fillable = [
+        'title',
+        'description',
+    ];
 }

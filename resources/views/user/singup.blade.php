@@ -5,6 +5,10 @@
 
     <div class="page-singup">
 
+        <div class="form-auth-card">
+
+        <x-branding/>
+
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
@@ -15,7 +19,8 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('singup_submit') }}">
+        <form method="POST" action="{{ route('singup_submit') }}"
+              class="login singup">
             @csrf
 
             <div class="row">
@@ -42,7 +47,10 @@
                        class="@error('password') is-invalid @enderror">
             </div>
 
-            <button type="submit">Załóż konto</button>
+            <button type="submit" class="btn-submit">Załóż konto</button>
         </form>
+
+        </div>
+
     </div>
 </x-layout>

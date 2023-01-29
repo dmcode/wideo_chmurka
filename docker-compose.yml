@@ -34,7 +34,8 @@ services:
     volumes:
       - '.:/usr/local/apache2/htdocs/'
       - './docker/php/php.ini-development:/usr/local/etc/php/php.ini'
-    user: 1000:1000
+    # user: 1000:1000
+    # user: 501:501
     depends_on:
       - dev_db
 

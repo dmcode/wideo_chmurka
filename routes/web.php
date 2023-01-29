@@ -15,6 +15,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [PublicController::class, 'index']);
+Route::get('/', [PublicController::class, 'index'])->name('index');
 Route::get('/singup', [UserController::class, 'singup'])->name('singup');
 Route::post('/singup', [UserController::class, 'singup_submit'])->name('singup_submit');

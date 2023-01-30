@@ -1,13 +1,18 @@
 <x-layout>
     <x-slot:title>
-        Utwórz nowe konto
+        Zaloguj się
     </x-slot>
 
-    <div class="page-singup">
+    <div class="page-login">
 
         <div class="form-auth-card">
 
         <x-branding/>
+        
+        <h1 class="page-title">Logowanie</h1>
+        <p class="no-account">
+            Nie masz konta? <a href="{{ route('singup') }}">Załóż nowe konto</a>
+        </p>
 
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -19,15 +24,9 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('singup_submit') }}"
-              class="login singup">
+        <form method="POST" action="{{ route('login_submit') }}"
+              class="login">
             @csrf
-
-            <div class="row">
-                <label for="name">Nazwa użytkownika</label>
-                <input id="name" type="text" name="name" minlength="2" maxlength="30" required
-                       value="{{ old('name') }}" class="@error('name') is-invalid @enderror">
-            </div>
 
             <div class="row">
                 <label for="email">Adres e-mail</label>
@@ -41,13 +40,7 @@
                        class="@error('password') is-invalid @enderror">
             </div>
 
-            <div class="row">
-                <label for="password_confirmation">Powtórz hasło</label>
-                <input id="password_confirmation" type="password" name="password_confirmation" minlength="8" maxlength="128" required
-                       class="@error('password') is-invalid @enderror">
-            </div>
-
-            <button type="submit" class="btn-submit">Załóż konto</button>
+            <button type="submit" class="btn-submit">Zaloguj</button>
         </form>
 
         </div>

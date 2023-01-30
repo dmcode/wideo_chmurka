@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\PublicController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,6 +15,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [PublicController::class, 'index'])->name('index');
-Route::get('/singup', [UserController::class, 'singup'])->name('singup');
-Route::post('/singup', [UserController::class, 'singup_submit'])->name('singup_submit');
+Route::get('/', [PublicController::class, 'index'])->middleware('auth')->name('index');
+Route::get('/singup', [AuthController::class, 'singup'])
+    ->middleware('guest')->name('singup');
+Route::post('/singup', [AuthController::class, 'singup_submit'])
+    ->middleware('guest')->name('singup_submit');
+Route::get('/login', [AuthController::class, 'login'])
+    ->middleware('guest')->name('login');
+Route::post('/login', [AuthController::class, 'login_submit'])
+    ->middleware('guest')->name('login_submit');

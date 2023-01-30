@@ -2,17 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
 use App\Http\Requests\SingupRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\View\View;
 
-class UserController extends BaseController
+class AuthController extends BaseController
 {
     public function login()
     {
+        return view('auth.login');
+    }
 
+    public function login_submit(LoginRequest $request)
+    {
+        $request->authenticate();
+        $request->session()->regenerate();
+        return redirect()->route('index');
     }
 
     /**
@@ -20,7 +28,7 @@ class UserController extends BaseController
      */
     public function singup(Request $request)
     {
-        return view('user.singup');
+        return view('auth.singup');
     }
 
     public function singup_submit(SingupRequest $request)
@@ -33,6 +41,6 @@ class UserController extends BaseController
         $user->password = bcrypt($validatedData['password']);
         $user->save();
 
-        return view('user.singup');
+        return redirect()->route('login');
     }
 }

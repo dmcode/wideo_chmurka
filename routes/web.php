@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [PublicController::class, 'index'])->middleware('auth')->name('index');
+Route::get('/', [PublicController::class, 'index'])->name('index');
 Route::get('/singup', [AuthController::class, 'singup'])
     ->middleware('guest')->name('singup');
 Route::post('/singup', [AuthController::class, 'singup_submit'])

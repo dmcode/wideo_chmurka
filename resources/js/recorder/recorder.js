@@ -190,7 +190,7 @@ class VideoBox {
         document.body.removeChild(downloadLink);
     }
 
-    upload(url) {
+    upload(url, token) {
         if (!this._recorder)
             return;
         return new Promise((resolve, reject) => {
@@ -204,6 +204,7 @@ class VideoBox {
                     reject();
             };
             fd.append('myFile', this._recorder.recordedBlob);
+            fd.append('_token', token);
             xhr.send(fd);
         })
     }

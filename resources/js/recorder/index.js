@@ -88,7 +88,7 @@ const renderRecorderActions = ({videoBox}) => {
   btnUpload.innerText = "Zapisz w bibliotece";
   btnUpload.addEventListener('click', () => {
     renderUploadingBar();
-    videoBox.upload(tagMediaPreview.dataset.apiupload)
+    videoBox.upload(tagMediaPreview.dataset.apiupload, tagMediaPreview.dataset.token)
       .then(_ => {
         renderNewVideoAction()
       })

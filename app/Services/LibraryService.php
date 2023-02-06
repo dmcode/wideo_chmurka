@@ -13,16 +13,17 @@ class LibraryService
     {
         $video = $this->videoService->createFromUploaded($file);
         $thumb = $this->videoService->createThumbnail($video);
-        // $user = auth()->user();
+        $user = auth()->user();
+        var_dump($user);
         $library = new Library([
             'lid' => self::generateId(),
             'visibility' => 'private',
             'title' => 'Moje nowe wideo',
             'thumb' => $thumb
         ]);
+        $library->user()->associate($user);
         $library->save();
         $library->video()->save($video);
-        // $library->user()->associate($user);
         return $library;
     }
 

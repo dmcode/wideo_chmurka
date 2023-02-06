@@ -1,5 +1,6 @@
 <section class="video-recorder">
     <div class="media-preview-wrapper"
+         data-token="{{ csrf_token() }}"
          data-apiupload="{{ route('upload_blob') }}"
          @if(Auth::check()) data-auth="true" @endif>
         <video id="mediaPreview" autoplay loop muted poster="{{ asset('/images/loss-signal-poster.webp') }}">

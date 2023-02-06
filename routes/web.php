@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LibraryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [PublicController::class, 'index'])->name('index');
+Route::post('/upload_blob', [LibraryController::class, 'uploadBlobVideo'])
+    ->name('upload_blob');
 Route::get('/singup', [AuthController::class, 'singup'])
     ->middleware('guest')->name('singup');
 Route::post('/singup', [AuthController::class, 'singup_submit'])

@@ -5,25 +5,32 @@ namespace App\Services;
 use App\Models\Video;
 use FFMpeg\FFMpeg;
 use FFMpeg\FFProbe;
+use FFMpeg\Coordinate\TimeCode;
 use Illuminate\Http\File;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
 class VideoService
 {
-    public function getVideoFile($fileId): File
+    const VIDEO_STORAGE = 'videos';
+    const THUMBS_STORAGE = 'thumbs';
+
+    public function getVideoFile($filePath): File
     {
-        return new File(Storage::path('videos/'.$fileId));
+        return new File(Storage::path($filePath));
     }
 
-    public function saveUploadedFile(UploadedFile $file)
+    public function saveUploadedVideo(UploadedFile $file)
     {
-        $id = self::fileid();
-        Storage::putFileAs('videos', $file, $id);
-        return $id;
+        return Storage::putFile(self::VIDEO_STORAGE, $file);
     }
 
-    public function createFromUploaded(UploadedFile $file)
+    public function saveVideoThumb(File $file)
+    {
+        return Storage::putFile(self::THUMBS_STORAGE, $file);
+    }
+
+    public function createFromUploaded(UploadedFile $file): Video
     {
         if ($file->getError())
             throw new \InvalidArgumentException("Uploading error");
@@ -32,14 +39,26 @@ class VideoService
         if (!$processed || !self::isValidMedia($processed))
             throw new \InvalidArgumentException("Invalid media file.");
 
-        $fileId = $this->saveUploadedFile($processed);
-        return $this->createFromStorageFile($fileId);
+        $filePath = $this->saveUploadedVideo($processed);
+        return $this->createFromStorageFile($filePath);
     }
 
-    public function createFromStorageFile(string $fileId)
+    public function createFromStorageFile(string $filePath): Video
     {
-        $file = $this->getVideoFile($fileId);
-        return Video::create(array_merge(['vid' => $fileId], self::getMediaAttributes($file)));
+        $file = $this->getVideoFile($filePath);
+        return new Video(array_merge(['file' => $filePath], self::getMediaAttributes($file)));
+    }
+
+    public function createThumbnail($video): string
+    {
+        if ($video->duration < 1)
+            return false;
+        $sec = $video->duration >= 10 ? 10 : ceil($video->duration / 2);
+        $frame = $this->getFrame($video->file, $sec);
+        $framePath = '/tmp/'.bin2hex(random_bytes(10));
+        $frame->save($framePath);
+        $file = new File($framePath);
+        return $this->saveVideoThumb($file);
     }
 
     static public function getMediaAttributes(File $file): array
@@ -97,10 +116,5 @@ class VideoService
         $ffmpeg = FFMpeg::create();
         $video = $ffmpeg->open($path);
         return $video->frame(TimeCode::fromSeconds($quantity));
-    }
-
-    static public function fileid(): string
-    {
-        return substr(str_shuffle('adcdefghjkmnoprsquwxyz123456789_-ADCDEFGHJKMNPRSQUWXYZ'), 0, 12);
     }
 }

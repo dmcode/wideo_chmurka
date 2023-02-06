@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Library;
 use Illuminate\Http\UploadedFile;
 
 class LibraryService
@@ -11,5 +12,22 @@ class LibraryService
     public function createFromUploaded(UploadedFile $file)
     {
         $video = $this->videoService->createFromUploaded($file);
+        $thumb = $this->videoService->createThumbnail($video);
+        // $user = auth()->user();
+        $library = new Library([
+            'lid' => self::generateId(),
+            'visibility' => 'private',
+            'title' => 'Moje nowe wideo',
+            'thumb' => $thumb
+        ]);
+        $library->save();
+        $library->video()->save($video);
+        // $library->user()->associate($user);
+        return $library;
+    }
+
+    static public function generateId(): string
+    {
+        return substr(str_shuffle('adcdefghjkmnoprsquwxyz123456789_-ADCDEFGHJKMNPRSQUWXYZ'), 0, 12);
     }
 }

@@ -8,15 +8,13 @@ use Jenssegers\Mongodb\Eloquent\Model;
 
 class Video extends Model
 {
-    protected $collection = 'videos';
-
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'vid',
+        'file',
         'duration',
         'res_w',
         'res_h',

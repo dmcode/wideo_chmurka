@@ -2,16 +2,27 @@
 
 namespace App\Models;
 
-//use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Jenssegers\Mongodb\Eloquent\Model;
 
 class Library extends Model
 {
-//    use HasFactory;
     protected $collection = 'libraries';
 
     protected $fillable = [
+        'lid',
+        'visibility',
+        'thumb',
         'title',
         'description',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function video()
+    {
+        return $this->embedsOne(Video::class);
+    }
 }

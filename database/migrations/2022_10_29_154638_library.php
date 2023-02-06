@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('libraries', function (Blueprint $table) {
             $table->id();
-//            $table->string('lid', 128)->unique();
+            $table->string('lid', 128)->unique();
 //            $table->bigInteger('user_id')->unsigned();
 //            $table->foreign('user_id')->references('id')->on('users');
 //            $table->bigInteger('video_id')->unsigned();
@@ -26,7 +26,7 @@ return new class extends Migration
 //            $table->string('thumb', 128)->nullable();
 //            $table->string('title', 100)->nullable();
 //            $table->string('description', 1000)->nullable();
-            $table->unique(['user_id', 'video_id'], 'uidx_user_video');
+//            $table->unique(['user_id', 'video_id'], 'uidx_user_video');
 //            $table->comment('Biblioteka wideo użytkownika');
         });
     }

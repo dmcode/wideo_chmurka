@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Services\LibraryService;
+use App\Services\VideoService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +15,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(LibraryService::class, function($app) {
+            return new LibraryService($app->make(VideoService::class));
+        });
     }
 
     /**

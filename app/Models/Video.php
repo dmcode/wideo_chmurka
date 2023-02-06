@@ -8,12 +8,20 @@ use Jenssegers\Mongodb\Eloquent\Model;
 
 class Video extends Model
 {
-//    use HasFactory;
-//    use HasUuids;
-
-//    public function uniqueIds()
-//    {
-//        return ['vid'];
-//    }
     protected $collection = 'videos';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'vid',
+        'duration',
+        'res_w',
+        'res_h',
+        'size',
+        'codec_name',
+        'format_name',
+    ];
 }

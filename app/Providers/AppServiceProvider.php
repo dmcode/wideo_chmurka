@@ -27,6 +27,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        view()->composer(['*'], function($view) {
+            require_once base_path('app/helpers.php');
+        });
     }
 }

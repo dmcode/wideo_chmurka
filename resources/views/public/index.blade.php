@@ -1,6 +1,14 @@
 <x-body>
     <x-videorecorder/>
 
+    <x-mostrecent>
+        <x-slot:title>Najnowsze</x-slot>
+    </x-mostrecent>
+
+    <x-mostrecent>
+        <x-slot:title>Popularne</x-slot>
+    </x-mostrecent>
+
     <x-slot:templates>
 
     <template id="tmplSelectMedia">

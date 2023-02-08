@@ -13,18 +13,24 @@ class LibraryService
     {
         $video = $this->videoService->createFromUploaded($file);
         $thumb = $this->videoService->createThumbnail($video);
-        $user = auth()->user();
-        var_dump($user);
         $library = new Library([
             'lid' => self::generateId(),
             'visibility' => 'private',
             'title' => 'Moje nowe wideo',
-            'thumb' => $thumb
+            'thumb' => $thumb,
+            'number_views' => 0,
+            'published_at' => null,
+            'description' => null,
         ]);
-        $library->user()->associate($user);
+        $library->user()->associate(auth()->user());
         $library->save();
         $library->video()->save($video);
         return $library;
+    }
+
+    public function findMostRecent($limit=12)
+    {
+        return Library::where('visibility', 'public')->orderBy('created_at', 'desc')->get();
     }
 
     static public function generateId(): string

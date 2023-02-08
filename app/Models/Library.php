@@ -13,7 +13,9 @@ class Library extends Model
         'visibility',
         'thumb',
         'title',
-        'description',
+        'number_views',
+        'published_at',
+        'description'
     ];
 
     public function user()

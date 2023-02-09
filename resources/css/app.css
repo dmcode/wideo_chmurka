@@ -13,6 +13,7 @@
     --video-thumb-width: 400px;
     --video-editor-player-width: 640px;
     --video-views-color: #515a5a;
+    --header-height: 80px;
 }
 
 * {
@@ -65,7 +66,7 @@ body > header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    height: 80px;
+    height: var(--header-height);
     border-bottom: 2px solid red;
     padding: 0 1rem;
     background: white;
@@ -155,6 +156,21 @@ nav.account .user i {
 
 nav.account .btn-logout {
     font-size: var(--size-d26);
+}
+
+
+.page-error404 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: calc(100vh - var(--header-height));
+}
+
+.page-error404 h2 {
+    font-size: 4rem;
+    font-weight: normal;
 }
 
 

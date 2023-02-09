@@ -4,7 +4,7 @@
         @if(!Auth::check())
             <a href="{{ route('login') }}">Zaloguj się</a>
         @else
-            <a href="" class="btn-library"
+            <a href="{{ route('library') }}" class="btn-library"
                title="Przejdż do twojej biblioteki wideo">Biblioteka</a>
             <div class="user"
                  title="Zalogowano na użytkownika"><i class="fa-solid fa-circle-user"></i><span class="username">{{ Auth::user()->email }}</span></div>

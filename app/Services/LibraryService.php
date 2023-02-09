@@ -53,6 +53,11 @@ class LibraryService
         return Library::where('lid', $lid)->first();
     }
 
+    public function findEntities($user)
+    {
+        return Library::where('user_id', $user->id)->orderBy('created_at', 'desc')->get();
+    }
+    
     public function findMostRecent($limit=12)
     {
         return Library::where('visibility', 'public')->orderBy('created_at', 'desc')

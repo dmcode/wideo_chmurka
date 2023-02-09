@@ -16,6 +16,12 @@ class LibraryController extends BaseController
 {
     use VideoTrait;
 
+    public function index(Request $request, LibraryService $library)
+    {
+        $entities = $library->findEntities(auth()->user());
+        return view('library.library', ['entities' => $entities]);
+    }
+
     public function registerVideoView(Request $request, $lid, LibraryService $library)
     {
         try {

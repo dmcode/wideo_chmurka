@@ -28,6 +28,9 @@ Route::get('/login', [AuthController::class, 'login'])
 Route::post('/login', [AuthController::class, 'login_submit'])
     ->middleware('guest')->name('login_submit');
 
+Route::get('/library', [LibraryController::class, 'index'])
+    ->name('library');
+
 Route::post('/api/view/{lid}', [LibraryController::class, 'registerVideoView'])
     ->name('register_view');
 

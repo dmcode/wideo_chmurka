@@ -2,6 +2,7 @@
 
 use Carbon\Carbon;
 
+
 function duration($value): string
 {
     $min = floor($value / 60);
@@ -17,4 +18,13 @@ function duration($value): string
 function format_date($date, $format='d.m.Y') 
 {
     return Carbon::parse($date)->format($format);
+}
+
+
+function visibility($visibility): string
+{
+    $visibilityDict = [
+        'private' => 'prywatny', 'protected' => 'niepubliczny', 'public' => 'publiczny'
+    ];
+    return isset($visibilityDict[$visibility]) ? $visibilityDict[$visibility] : $visibility;
 }

@@ -1,4 +1,7 @@
 <x-body>
+    <x-slot:title>
+        {{ $video->title }}
+    </x-slot>
     <div class="block page-video">
         <div class="player-box">
             <div class="player">

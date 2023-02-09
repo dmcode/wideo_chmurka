@@ -1,6 +1,12 @@
 <x-body>
+    @php
+    $title = "Twoja biblioteka"
+    @endphp
+    <x-slot:title>
+        {{ $title }}
+    </x-slot>
     <div class="block library">
-        <h1 class="page-title">Twoja biblioteka</h1>
+        <h1 class="page-title">{{ $title }}</h1>
         <ul class="video-list items">
             @foreach($entities as $item)
                 <li>

@@ -1,4 +1,7 @@
 <x-layout>
+    <x-slot:title>
+        {{ $title ?? config('app.name') }}
+    </x-slot>
     <x-header/>
     <main>{{ $slot }}</main>
     <footer>

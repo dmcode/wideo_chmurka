@@ -1,9 +1,14 @@
 <x-body>
-    
+    @php
+    $title = "Szczegóły wideo"
+    @endphp
+    <x-slot:title>
+        {{ $title }}
+    </x-slot>
     <div class="block library">
         <a href="{{ route('library') }}" class="btn-back"><i class="fa-solid fa-circle-chevron-left"></i> Wszystkie filmy</a>
 
-        <h1 class="page-title">Szczegóły wideo</h1>
+        <h1 class="page-title">{{ $title }}</h1>
 
         <div class="video-editor">
             <div class="player">

@@ -35,11 +35,11 @@ Route::get('/library/{lid}', [LibraryController::class, 'video'])
 
 Route::post('/api/video_data', [LibraryController::class, 'updateVideoData'])
     ->middleware('auth')->name('video_data');
-Route::post('/api/view/{lid}', [LibraryController::class, 'registerVideoView'])
-    ->middleware('auth')->name('register_view');
 Route::post('/api/upload_blob', [LibraryController::class, 'uploadBlobVideo'])
-    ->name('upload_blob');
+    ->middleware('auth')->name('upload_blob');
 
+Route::post('/api/view/{lid}', [LibraryController::class, 'registerVideoView'])
+    ->name('register_view');
 Route::get('/stream/{lid}', [StreamController::class, 'video'])
     ->name('stream_video');
 Route::get('/thumb/{lid}', [StreamController::class, 'thumb'])

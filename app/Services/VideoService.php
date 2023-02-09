@@ -25,6 +25,11 @@ class VideoService
         return Storage::putFile(self::VIDEO_STORAGE, $file);
     }
 
+    public function getThumbFile($filePath): File
+    {
+        return new File(Storage::path($filePath));
+    }
+
     public function saveVideoThumb(File $file)
     {
         return Storage::putFile(self::THUMBS_STORAGE, $file);

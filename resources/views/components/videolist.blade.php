@@ -3,9 +3,9 @@
     <ul class="video-list">
     @foreach ($entities as $item)
         <li>
-            <a href="">
+            <a href="{{ route('public_video', $item->lid) }}">
                 <div class="video-thumb">
-                    <img src="" alt=""/>
+                    <img src="{{ route('stream_thumb', $item->lid) }}" alt=""/>
                     <time class="duration">{{ duration($item->video->duration) }}</time>
                 </div>
                 <h3 class="title">{{ $item->title }}</h3>
@@ -17,8 +17,8 @@
             </a>
         </li>
     @endforeach
-    @unless (empty($entities))
+    @if (empty($entities))
         <li><p class="empty-list">Tu jeszcze nic nie ma. Dodaj swoje wideo!</p></li>
-    @endunless
+    @endif
     </ul>
 </section>

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Library;
+use Illuminate\Http\File;
 use Illuminate\Http\UploadedFile;
 
 class LibraryService
@@ -28,9 +29,34 @@ class LibraryService
         return $library;
     }
 
+    public function getVideoFile($entity): File
+    {
+        return $this->videoService->getVideoFile($entity->video->file);
+    }
+
+    public function getThumbFile($entity): File
+    {
+        return $this->videoService->getThumbFile($entity->thumb);   
+    }
+
+    public function getEntity(string $lid)
+    {
+        return Library::where('lid', $lid)->first();
+    }
+
     public function findMostRecent($limit=12)
     {
-        return Library::where('visibility', 'public')->orderBy('created_at', 'desc')->get();
+        return Library::where('visibility', 'public')->orderBy('created_at', 'desc')
+            ->take($limit)
+            ->get();
+    }
+
+    public function findPopular($limit=12)
+    {
+        return Library::where('visibility', 'public')
+            ->orderBy('number_views', 'desc')->orderBy('created_at', 'desc')
+            ->take($limit)
+            ->get();
     }
 
     static public function generateId(): string

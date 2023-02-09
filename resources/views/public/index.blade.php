@@ -5,9 +5,9 @@
         <x-slot:title>Najnowsze</x-slot>
     </x-mostrecent>
 
-    <x-mostrecent>
+    <x-popular>
         <x-slot:title>Popularne</x-slot>
-    </x-mostrecent>
+    </x-popular>
 
     <x-slot:templates>
 

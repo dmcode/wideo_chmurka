@@ -9,13 +9,29 @@ use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Session;
 
 
 class LibraryController extends BaseController
 {
-    /**
-     * @return View
-     */
+    use VideoTrait;
+
+    public function registerVideoView(Request $request, $lid, LibraryService $library)
+    {
+        try {
+            $entity = $this->getVideo($lid);
+            $key = "viewed_$entity->slug";
+            if (!Session::has($entity->lid) || Session::has($key))
+                throw new \InvalidArgumentException("Upss! Nie da się.");
+            $library->registerView($entity);
+            Session::put($key, true);
+            return response()->json(['status' => 'SUCCESS']);
+        }
+        catch (\InvalidArgumentException) {
+            abort(404);
+        }
+    }
+
     public function uploadBlobVideo(Request $request, LibraryService $library)
     {
         $files = $request->allFiles();

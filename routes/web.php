@@ -19,9 +19,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PublicController::class, 'index'])->name('index');
 
-Route::post('/upload_blob', [LibraryController::class, 'uploadBlobVideo'])
-    ->name('upload_blob');
-
 Route::get('/singup', [AuthController::class, 'singup'])
     ->middleware('guest')->name('singup');
 Route::post('/singup', [AuthController::class, 'singup_submit'])
@@ -31,6 +28,14 @@ Route::get('/login', [AuthController::class, 'login'])
 Route::post('/login', [AuthController::class, 'login_submit'])
     ->middleware('guest')->name('login_submit');
 
+Route::post('/api/view/{lid}', [LibraryController::class, 'registerVideoView'])
+    ->name('register_view');
+
+Route::post('/upload_blob', [LibraryController::class, 'uploadBlobVideo'])
+    ->name('upload_blob');
+
+Route::get('/stream/{lid}', [StreamController::class, 'video'])
+    ->name('stream_video');
 Route::get('/thumb/{lid}', [StreamController::class, 'thumb'])
     ->name('stream_thumb');
 

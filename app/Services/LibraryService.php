@@ -5,6 +5,8 @@ namespace App\Services;
 use App\Models\Library;
 use Illuminate\Http\File;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\DB;
+
 
 class LibraryService
 {
@@ -27,6 +29,13 @@ class LibraryService
         $library->save();
         $library->video()->save($video);
         return $library;
+    }
+
+    public function registerView($entity, $number=1)
+    {
+        $item = $this->getEntity($entity->lid);
+        $item->number_views += 1;
+        $item->save();
     }
 
     public function getVideoFile($entity): File

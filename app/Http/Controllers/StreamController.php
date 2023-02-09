@@ -14,21 +14,34 @@ class StreamController extends Controller
 {
     use VideoTrait;
 
-    public function thumb(Request $request, $lid, LibraryService $library)
+    public function video(Request $request, $lid, LibraryService $library): StreamedResponse
     {
         try {
             set_time_limit(0);
-            $video = $this->getVideo($lid);
-            $file = $library->getThumbFile($video);
-            $contentType = str_contains($video->format_name, 'webm') ? 'video/webm' : 'application/octet-stream';
+            $entity = $this->getVideo($lid);
+            $file = $library->getVideoFile($entity);
+            $contentType = str_contains($entity->video->format_name, 'webm') ? 'video/webm' : 'application/octet-stream';
             return $this->streamResponse($request, $file, $contentType);
         }
         catch (\InvalidArgumentException) {
             abort(404);
         }
     }
-    
-    protected function streamResponse(Request $request, File $file, $contentType)
+
+    public function thumb(Request $request, $lid, LibraryService $library): StreamedResponse
+    {
+        try {
+            set_time_limit(0);
+            $video = $this->getVideo($lid);
+            $file = $library->getThumbFile($video);
+            return $this->streamResponse($request, $file, 'image/jpeg');
+        }
+        catch (\InvalidArgumentException) {
+            abort(404);
+        }
+    }
+
+    protected function streamResponse(Request $request, File $file, $contentType): StreamedResponse
     {
         list($start, $end, $size) = $this->range($request, $file);
         $response = new StreamedResponse(function() use ($file, $start, $size) {

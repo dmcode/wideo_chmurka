@@ -29,10 +29,10 @@ Route::post('/login', [AuthController::class, 'login_submit'])
     ->middleware('guest')->name('login_submit');
 
 Route::get('/library', [LibraryController::class, 'index'])
-    ->name('library');
+    ->middleware('auth')->name('library');
 
 Route::post('/api/view/{lid}', [LibraryController::class, 'registerVideoView'])
-    ->name('register_view');
+    ->middleware('auth')->name('register_view');
 
 Route::post('/upload_blob', [LibraryController::class, 'uploadBlobVideo'])
     ->name('upload_blob');

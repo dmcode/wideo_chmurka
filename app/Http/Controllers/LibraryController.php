@@ -22,6 +22,30 @@ class LibraryController extends BaseController
         return view('library.library', ['entities' => $entities]);
     }
 
+    public function video(Request $request, $lid, LibraryService $library)
+    {
+        try {
+            $entity = $this->getVideo($lid);
+            return view('library.video', ['item' => $entity]);
+        }
+        catch (\InvalidArgumentException) {
+            abort(404);
+        }
+    }
+
+    public function updateVideoData(Request $request, LibraryService $library)
+    {
+        try {
+            $data = $request->all();
+            $entity = $this->getVideo($data['lid'], true);
+            $library->updateData($entity, $data);
+            return response()->json(['status' => 'SUCCESS']);
+        }
+        catch (\InvalidArgumentException) {
+            abort(404);
+        }
+    }
+
     public function registerVideoView(Request $request, $lid, LibraryService $library)
     {
         try {

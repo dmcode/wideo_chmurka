@@ -30,6 +30,15 @@ class LibraryService
         $library->video()->save($video);
         return $library;
     }
+    
+    public function updateData($entity, $data)
+    {
+        $visibility = $data['visibility'] ? 'public' : 'private';
+        $entity->title = $data['title'];
+        $entity->description = $data['description'];
+        $entity->visibility = $visibility;
+        $entity->save();
+    }
 
     public function registerView($entity, $number=1)
     {

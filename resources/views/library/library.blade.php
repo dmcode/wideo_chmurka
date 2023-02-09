@@ -4,7 +4,7 @@
         <ul class="video-list items">
             @foreach($entities as $item)
                 <li>
-                    <a href="">
+                    <a href="{{ route('library_video', $item->lid) }}">
                         <div class="video-thumb">
                             <img src="{{ route('stream_thumb', $item->lid) }}" alt=""/>
                             <time class="duration">{{ duration($item->video->duration) }}</time>

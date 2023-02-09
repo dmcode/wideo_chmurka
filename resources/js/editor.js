@@ -17,7 +17,8 @@ if (videoForm) {
     const data = new FormData(e.target);
     const value = Object.assign(Object.fromEntries(data.entries()), {
       visibility: document.getElementById('visibility').checked,
-      vid: videoForm.dataset.vid
+      lid: videoForm.dataset.lid,
+      _token: videoForm.dataset.token,
     });
     fetch(videoForm.dataset.apivd, {
       method: 'POST',

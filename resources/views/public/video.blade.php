@@ -28,6 +28,6 @@
     </div>
     <x-slot:templates></x-slot>
     <x-slot:scripts>
-        @vite(['resources/js/player.js'])
+        <script type="module" src="/js/player.js"></script>
     </x-slot>
 </x-body>

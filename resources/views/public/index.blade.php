@@ -1,9 +1,9 @@
 <x-body>
     <x-videorecorder/>
 
-    <x-mostrecent>
+    <x-most-recent>
         <x-slot:title>Najnowsze</x-slot>
-    </x-mostrecent>
+    </x-most-recent>
 
     <x-popular>
         <x-slot:title>Popularne</x-slot>
@@ -56,7 +56,7 @@
     </x-slot>
     
     <x-slot:scripts>
-        @vite(['resources/js/recorder/index.js'])
+        <script type="module" src="/js/recorder/index.js"></script>
     </x-slot>
 
 </x-body>

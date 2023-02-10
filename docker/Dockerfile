@@ -10,7 +10,7 @@ RUN apt-get install -y zip ffmpeg \
 
 RUN pecl install mongodb && docker-php-ext-enable mongodb
 
-ENV APP_PATH=/usr/local/apache2/htdocs/
+ENV APP_PATH=/usr/local/apache2/htdocs
 WORKDIR $APP_PATH
 
 COPY . $APP_PATH

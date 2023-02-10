@@ -880,6 +880,7 @@ nav.account .btn-logout {
     color: red;
 }
 
+.video-editor .btn-delete,
 .video-editor .btn-save {
     background-color: #1652F0;
     border: 1px solid #1652F0;
@@ -917,6 +918,11 @@ nav.account .btn-logout {
     box-shadow: 0 0 10px 0 rgba(176, 176, 176, 1);
 }
 
+.video-editor .btn-delete {
+    background-color: #f01655;
+    border: 1px solid #f01655;
+    margin-right: 1.2rem;
+}
 
 
 /* Page video */

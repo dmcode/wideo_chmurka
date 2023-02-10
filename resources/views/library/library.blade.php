@@ -8,7 +8,7 @@
     <div class="block library">
         <h1 class="page-title">{{ $title }}</h1>
         <ul class="video-list items">
-            @foreach($entities as $item)
+            @forelse($entities as $item)
                 <li>
                     <a href="{{ route('library_video', $item->lid) }}">
                         <div class="video-thumb">
@@ -34,7 +34,9 @@
                         </div>
                     </a>
                 </li>
-            @endforeach
+            @empty
+                <li><p class="empty-list">Tu jeszcze nic nie ma. Dodaj swoje wideo!</p></li>
+            @endforelse
         </ul>
     </div>    
 

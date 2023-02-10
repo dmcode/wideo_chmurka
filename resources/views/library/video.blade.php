@@ -31,7 +31,8 @@
             </div>
             <div class="video-form">
                 <form id="videoForm" method="post"
-                      data-lid="{{ $item->lid }}" data-apivd="{{ route('video_data') }}" data-token="{{ csrf_token() }}">
+                      data-lid="{{ $item->lid }}" data-apivd="{{ route('video_data') }}" data-token="{{ csrf_token() }}"
+                      data-library="{{ route('library') }}">
                     <div class="row">
                         <label for="title">Tytuł wideo</label>
                         <input id="title" type="text" name="title" required maxlength="100" value="{{ $item->title }}" />
@@ -52,7 +53,8 @@
                     <div class="actions">
                         <span class="results"></span>
                         <span>
-                            <input type="submit" class="btn-save" value="Zapisz">
+                            <input type="button" id="btnDelete" class="btn-delete" value="Usuń"/>
+                            <input type="submit" class="btn-save" value="Zapisz"/>
                         </span>
                     </div>
                 </form>

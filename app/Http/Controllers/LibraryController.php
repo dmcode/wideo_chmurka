@@ -72,4 +72,17 @@ class LibraryController extends BaseController
         }
         return response()->json(['uploaded' => 'SUCCESS']);
     }
+
+    public function deleteVideo(Request $request, LibraryService $library)
+    {
+        try {
+            $data = $request->all();
+            $entity = $this->getVideo($data['lid'], true);
+            $library->deleteVideo($entity);
+            return response()->json(['status' => 'SUCCESS']);
+        }
+        catch (\InvalidArgumentException) {
+            abort(404);
+        }
+    }
 }

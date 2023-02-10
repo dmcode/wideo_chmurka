@@ -32,4 +32,28 @@ if (videoForm) {
         result('error', "Nie udało się zapisać danych!");
       });
   });
+
+  const btnDelete = document.getElementById('btnDelete');
+  btnDelete.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (!confirm("Wideo zostanie usunięte. Tej operacji nie będzie mozna cofnąć. Kontynuować?"))
+      return false;
+    fetch(videoForm.dataset.apivd, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        lid: videoForm.dataset.lid,
+        _token: videoForm.dataset.token,
+      }),
+    }).then(res => {
+      if (!res.ok)
+        throw new Error('Błędny kod odpowiedzi.');
+      window.location = videoForm.dataset.library;
+    }).catch(error => {
+      alert("Jest problem z usunięciem wideo: " + error)
+      console.error(error);
+    });
+  });
 }

@@ -25,6 +25,11 @@ class VideoService
         return Storage::putFile(self::VIDEO_STORAGE, $file);
     }
 
+    public function deleteFile($filePath)
+    {
+        Storage::delete($filePath);
+    }
+
     public function getThumbFile($filePath): File
     {
         return new File(Storage::path($filePath));

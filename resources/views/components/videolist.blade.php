@@ -1,7 +1,7 @@
 <section class="block">
     <h2 class="title">{{ $title }}</h2>
     <ul class="video-list">
-    @foreach ($entities as $item)
+    @forelse ($entities as $item)
         <li>
             <a href="{{ route('public_video', $item->lid) }}">
                 <div class="video-thumb">
@@ -16,9 +16,8 @@
                 </div>
             </a>
         </li>
-    @endforeach
-    @if (empty($entities))
+    @empty
         <li><p class="empty-list">Tu jeszcze nic nie ma. Dodaj swoje wideo!</p></li>
-    @endif
+    @endforelse
     </ul>
 </section>

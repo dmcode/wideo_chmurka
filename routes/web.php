@@ -35,6 +35,8 @@ Route::get('/library/{lid}', [LibraryController::class, 'video'])
 
 Route::post('/api/video_data', [LibraryController::class, 'updateVideoData'])
     ->middleware('auth')->name('video_data');
+Route::delete('/api/video_data', [LibraryController::class, 'deleteVideo'])
+    ->middleware('auth')->name('video_delete');
 Route::post('/api/upload_blob', [LibraryController::class, 'uploadBlobVideo'])
     ->middleware('auth')->name('upload_blob');
 

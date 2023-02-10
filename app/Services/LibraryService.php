@@ -40,6 +40,13 @@ class LibraryService
         $entity->save();
     }
 
+    public function deleteVideo($entity)
+    {
+        $this->videoService->deleteFile($entity->video->file);
+        $this->videoService->deleteFile($entity->thumb);
+        $entity->delete();
+    }
+
     public function registerView($entity, $number=1)
     {
         $item = $this->getEntity($entity->lid);

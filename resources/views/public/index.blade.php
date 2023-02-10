@@ -56,7 +56,7 @@
     </x-slot>
     
     <x-slot:scripts>
-        <script type="module" src="/js/recorder/index.js"></script>
+        <script type="module" src="{{ asset('/js/recorder/index.js') }}"></script>
     </x-slot>
 
 </x-body>

@@ -64,6 +64,6 @@
 
     <x-slot:templates></x-slot>
     <x-slot:scripts>
-        <script type="module" src="/js/editor.js"></script>
+        <script type="module" src="{{ asset('/js/editor.js') }}"></script>
     </x-slot>
 </x-body>

@@ -28,6 +28,6 @@
     </div>
     <x-slot:templates></x-slot>
     <x-slot:scripts>
-        <script type="module" src="/js/player.js"></script>
+        <script type="module" src="{{ asset('/js/player.js') }}"></script>
     </x-slot>
 </x-body>

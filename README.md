@@ -15,6 +15,7 @@ $ git clone git@github.com:dmcode/wideo_chmurka.git
 $ cd wideo_chmurka
 $ cp .env.example .env
 $ docker compose build
+$ docker compose up main_db -d
 $ docker compose run --rm main_php php artisan migrate
 $ docker compose up
 ```

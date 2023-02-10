@@ -8,6 +8,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Auth;
+
 
 class AuthController extends BaseController
 {
@@ -20,6 +22,14 @@ class AuthController extends BaseController
     {
         $request->authenticate();
         $request->session()->regenerate();
+        return redirect()->route('index');
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::guard('web')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
         return redirect()->route('index');
     }
 

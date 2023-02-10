@@ -12,7 +12,7 @@
         <h1 class="page-title">Utwórz nowe konto</h1>
 
         @if ($errors->any())
-            <div class="alert alert-danger">
+            <div class="error-message">
                 <ul>
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>

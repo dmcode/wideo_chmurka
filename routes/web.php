@@ -27,6 +27,8 @@ Route::get('/login', [AuthController::class, 'login'])
     ->middleware('guest')->name('login');
 Route::post('/login', [AuthController::class, 'login_submit'])
     ->middleware('guest')->name('login_submit');
+Route::get('/logout', [AuthController::class, 'logout'])
+    ->middleware('auth')->name('logout');
 
 Route::get('/library', [LibraryController::class, 'index'])
     ->middleware('auth')->name('library');

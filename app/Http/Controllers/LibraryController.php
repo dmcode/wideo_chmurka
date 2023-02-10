@@ -50,7 +50,7 @@ class LibraryController extends BaseController
     {
         try {
             $entity = $this->getVideo($lid);
-            $key = "viewed_$entity->slug";
+            $key = "viewed_$entity->lid";
             if (!Session::has($entity->lid) || Session::has($key))
                 throw new \InvalidArgumentException("Upss! Nie da się.");
             $library->registerView($entity);

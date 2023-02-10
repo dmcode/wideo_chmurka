@@ -2,32 +2,30 @@ version: '2.3'
 services:
 
   dev_db:
-    image: mysql:8.0
+    image: mongo:5.0
     volumes:
-      - "dev_dbdata:/var/lib/mysql"
-      - "./docker/initdb:/docker-entrypoint-initdb.d"
+      - './docker/mongo/000-init.js:/docker-entrypoint-initdb.d/000-init.js:ro'
+      - 'dev_dbdata:/data/db'
     ports:
-      - "8306:3306"
+      - '27017:27017'
     restart: on-failure
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      MYSQL_DATABASE: ${DB_DATABASE}
-      MYSQL_USER: ${DB_USERNAME}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MONGO_INITDB_ROOT_USERNAME: ${DB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
+      MONGO_INITDB_DATABASE: ${DB_DATABASE}
 
-  dev_phpmyadmin:
-    image: phpmyadmin
-    restart: on-failure
+  dev_mongoexpress:
+    image: mongo-express
     ports:
-      - "8001:80"
+      - '8081:8081'
     environment:
-      - PMA_ARBITRARY=1
-    depends_on:
-      - dev_db
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${DB_USERNAME}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${DB_PASSWORD}
+      ME_CONFIG_MONGODB_URL: mongodb://${DB_USERNAME}:${DB_PASSWORD}@dev_db:27017/
 
   dev_app:
-    image: wideochmurka:dev-php8.1-fpm-bullseye
-    command: php -S 0.0.0.0:8000 -t public
+    image: wideochmurka:dev_laravel-php8.1-fpm-bullseye
+    command: php artisan serve --host=0.0.0.0 --port=8000
     build:
       context: .
       dockerfile: docker/Dockerfile
@@ -35,9 +33,7 @@ services:
       - "8000:8000"
     volumes:
       - '.:/usr/local/apache2/htdocs/'
-      - './storage:/usr/local/apache2/htdocs/storage'
       - './docker/php/php.ini-development:/usr/local/etc/php/php.ini'
-    user: 1000:1000
     depends_on:
       - dev_db
 

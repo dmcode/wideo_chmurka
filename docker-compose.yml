@@ -2,26 +2,15 @@ version: '2.3'
 services:
 
   main_db:
-    image: mysql:8.0
+    image: mongo:5.0
     volumes:
-      - "main_dbdata:/var/lib/mysql"
-      - "./docker/initdb:/docker-entrypoint-initdb.d"
-    restart: unless-stopped
+      - './docker/mongo/000-init.js:/docker-entrypoint-initdb.d/000-init.js:ro'
+      - 'main_dbdata:/data/db'
+    restart: on-failure
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      MYSQL_DATABASE: ${DB_DATABASE}
-      MYSQL_USER: ${DB_USERNAME}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
-
-  main_phpmyadmin:
-    image: phpmyadmin
-    restart: unless-stopped
-    ports:
-      - "8081:80"
-    environment:
-      - PMA_ARBITRARY=1
-    depends_on:
-      - main_db
+      MONGO_INITDB_ROOT_USERNAME: ${DB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
+      MONGO_INITDB_DATABASE: ${DB_DATABASE}
 
   main_php:
     image: wideochmurka:php8.1-fpm-bullseye
